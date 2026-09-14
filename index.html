@@ -24,21 +24,46 @@
 
         header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white; padding: 25px 20px 20px 20px; text-align: center; border-bottom: 4px solid var(--accent);
-            position: relative;
+            color: white; padding: 20px 20px 15px 20px; text-align: center; border-bottom: 4px solid var(--accent);
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
 
-        /* حقوق الملكية في أعلى اليسار */
         .developer-tag {
-            position: absolute;
-            top: 10px;
-            left: 15px;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.85);
-            font-family: Arial, sans-serif;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-            direction: ltr;
+            position: absolute; top: 10px; left: 15px; font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.85); font-family: Arial, sans-serif; font-weight: bold; direction: ltr;
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .school-logo {
+            width: 55px;
+            height: 55px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            object-fit: cover;
+            background: white;
+            margin-bottom: 2px;
+        }
+
+        .admin-staff {
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            margin-top: 4px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .admin-staff span {
+            background: rgba(0, 0, 0, 0.15);
+            padding: 2px 8px;
+            border-radius: 6px;
         }
 
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
@@ -47,10 +72,13 @@
         .search-box input {
             width: 100%; padding: 14px; font-size: 1rem; border: 2px solid #ddd;
             border-radius: var(--radius); outline: none; transition: 0.3s;
+            background: white;
         }
         .search-box input:focus { border-color: var(--secondary); }
 
-        .class-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px; }
+        .class-tabs-wrapper { margin-bottom: 15px; }
+        .grade-group-title { font-size: 0.95rem; font-weight: bold; color: var(--primary); margin: 12px 0 6px 0; border-right: 3px solid var(--accent); padding-right: 6px; }
+        .class-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; flex-wrap: wrap; }
         .tab-btn {
             background: white; border: 1px solid #ccc; padding: 8px 16px; border-radius: 20px;
             font-weight: bold; cursor: pointer; white-space: nowrap; transition: 0.2s;
@@ -63,11 +91,11 @@
             box-shadow: var(--shadow); margin-bottom: 20px;
         }
 
-        .btn {
-            padding: 8px 14px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; transition: 0.2s;
-        }
+        .btn { padding: 8px 14px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; }
         .btn-primary { background: var(--secondary); color: white; }
         .btn-danger { background: var(--danger); color: white; }
+        .btn-warning { background: var(--warning); color: white; }
+        .btn-success { background: #2b9348; color: white; }
 
         .student-list { display: flex; flex-direction: column; gap: 10px; }
         .student-card {
@@ -82,31 +110,14 @@
         .student-name { font-weight: bold; font-size: 1.1rem; cursor: pointer; color: var(--primary); }
         .student-name:hover { text-decoration: underline; }
 
-        /* وسام التحذير لتجاوز الغياب */
         .warning-badge {
-            background-color: var(--danger);
-            color: white;
-            font-size: 0.75rem;
-            font-weight: bold;
-            padding: 3px 8px;
-            border-radius: 6px;
-            margin-right: 8px;
-            display: inline-block;
-            box-shadow: 0 2px 5px rgba(217, 4, 41, 0.3);
-            animation: pulse 2s infinite;
+            background-color: var(--danger); color: white; font-size: 0.75rem; font-weight: bold;
+            padding: 3px 8px; border-radius: 6px; margin-right: 8px; display: inline-block;
         }
 
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
-        }
-
-        /* Modal / Profile Styles */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 999;
-            padding: 15px;
+            background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1500; padding: 15px;
         }
         .modal-content {
             background: white; width: 100%; max-width: 750px; max-height: 90vh;
@@ -114,45 +125,38 @@
         }
         .close-btn { position: absolute; left: 20px; top: 15px; font-size: 1.8rem; cursor: pointer; color: #888; }
 
-        .profile-header {
-            border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 15px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        
-        .stats-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-bottom: 20px;
-        }
-        .stat-card {
-            background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 10px; text-align: center;
-        }
+        .profile-header { border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 10px; text-align: center; }
         .stat-card .num { font-size: 1.3rem; font-weight: bold; color: var(--primary); }
         .stat-card .label { font-size: 0.75rem; color: #666; }
 
         .report-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        .report-table th, .report-table td {
-            border: 1px solid #e0e0e0; padding: 10px; text-align: right; font-size: 0.9rem;
-        }
+        .report-table th, .report-table td { border: 1px solid #e0e0e0; padding: 10px; text-align: right; font-size: 0.9rem; }
         .report-table th { background: #f1f5f9; font-weight: bold; }
-
-        .badge {
-            display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold;
-        }
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
         .badge-danger { background: #ffedd5; color: #c2410c; }
 
-        @media print {
-            body * { visibility: hidden; }
-            .modal-content, .modal-content * { visibility: visible; }
-            .modal-content { position: absolute; left: 0; top: 0; width: 100%; }
-            .close-btn, .no-print { display: none !important; }
-        }
+        .sync-status { font-size: 0.8rem; font-weight: bold; margin-top: 6px; display: inline-block; }
+        .sync-status.loading { color: var(--info); }
+        .sync-status.error { color: var(--danger); }
+        .sync-status.ok { color: var(--secondary); }
+
+        .form-control { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="developer-tag">Made by: Nihad Alnsour</div>
-        <h1>مدرسة السلط الثانوية للبنين</h1>
-        <p>نظام بروفايل الطلاب والتقرير السلوكي الشامل</p>
+        <div class="header-content">
+            <img src="saltSecondarySchool.png" alt="شعار مدرسة السلط الثانوية" class="school-logo" onerror="this.style.display='none'">
+            <h1>مدرسة السلط الثانوية للبنين</h1>
+            <p style="font-size: 0.9rem;">نظام بروفايل الطلاب والتقرير السلوكي الشامل (قاعدة بيانات سحابية)</p>
+            <div class="admin-staff">
+                <span><b>مدير المدرسة:</b> محمد عليان الخرابشة</span>
+            </div>
+        </div>
     </header>
 
     <div class="container">
@@ -160,7 +164,11 @@
             <input type="text" id="globalSearch" placeholder="🔍 بحث عن اسم طالب في جميع الشعب..." oninput="renderStudents()">
         </div>
 
-        <div class="class-tabs" id="classTabs"></div>
+        <div class="class-tabs-wrapper" id="classTabs"></div>
+
+        <div style="text-align: right; margin-bottom: 15px;">
+            <button class="btn btn-success" onclick="openAddStudentModal()">➕ إضافة طالب جديد</button>
+        </div>
 
         <div class="action-bar">
             <div>
@@ -169,114 +177,136 @@
             </div>
             <div>
                 <button class="btn btn-primary" onclick="fetchDataFromSheets()">🔄 تحديث البيانات</button>
+                <div id="syncStatus" class="sync-status"></div>
             </div>
         </div>
 
         <div class="student-list" id="studentList"></div>
     </div>
 
-    <!-- Modal Profile & Report -->
+    <!-- Modal Profile -->
     <div class="modal" id="profileModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
-            
             <div class="profile-header">
                 <div>
                     <h2 id="modalStudentName" style="color:var(--primary);">اسم الطالب</h2>
                     <p id="modalStudentClass" style="color:#666; font-weight:bold;"></p>
                 </div>
-                <button class="btn btn-primary no-print" onclick="window.print()">🖨️ طباعة التقرير / PDF</button>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="btn btn-warning" onclick="openEditStudentModal()">✏️ تعديل بيانات الطالب</button>
+                    <button class="btn btn-danger" onclick="deleteCurrentStudent()">🗑️ حذف الطالب</button>
+                    <button class="btn btn-primary" onclick="window.print()">🖨️ طباعة</button>
+                </div>
             </div>
 
-            <!-- ملخص وإحصائيات الطالب -->
             <div class="stats-grid">
                 <div class="stat-card"><div class="num" id="stat_absent">0</div><div class="label">أيام الغياب</div></div>
                 <div class="stat-card"><div class="num" id="stat_delay">0</div><div class="label">تأخير صباحي</div></div>
                 <div class="stat-card"><div class="num" id="stat_early_exit">0</div><div class="label">مغادرة مبكرة</div></div>
                 <div class="stat-card"><div class="num" id="stat_escape">0</div><div class="label">حالات الهروب</div></div>
                 <div class="stat-card"><div class="num" id="stat_phone">0</div><div class="label">مخالفة هاتف</div></div>
-                <div class="stat-card"><div class="num" id="stat_warning">0</div><div class="label">تنبيهات/تعهدات</div></div>
+                <div class="stat-card"><div class="num" id="stat_warning">0</div><div class="label">التنبيهات/التعهدات</div></div>
+                <div class="stat-card"><div class="num" id="stat_formal_warning">0</div><div class="label">الإنذارات</div></div>
+                <div class="stat-card"><div class="num" id="stat_parent_call">0</div><div class="label">استدعاء ولي أمر</div></div>
             </div>
 
             <h3 style="margin-top:20px; border-right: 4px solid var(--accent); padding-right: 8px;">📋 التسجيل السريع لملاحظة بتاريخ اليوم (<span id="selectedDateLabel"></span>)</h3>
-            
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin: 15px 0;" class="no-print">
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin: 15px 0;">
                 <label><input type="checkbox" id="p_delay" onchange="toggleStudentDateLog('delay', this.checked)"> تأخير صباحي</label>
                 <label><input type="checkbox" id="p_early_exit" onchange="toggleStudentDateLog('early_exit', this.checked)"> مغادرة مبكرة</label>
                 <label><input type="checkbox" id="p_escape" onchange="toggleStudentDateLog('escape', this.checked)"> هروب من المدرسة</label>
                 <label><input type="checkbox" id="p_repeat_exit" onchange="toggleStudentDateLog('repeat_exit', this.checked)"> تكرار خروج</label>
                 <label><input type="checkbox" id="p_warning" onchange="toggleStudentDateLog('warning', this.checked)"> عقوبة تنبيه</label>
                 <label><input type="checkbox" id="p_pledge" onchange="toggleStudentDateLog('pledge', this.checked)"> تعهد خطي</label>
+                <label><input type="checkbox" id="p_formal_warning" onchange="toggleStudentDateLog('formal_warning', this.checked)"> عقوبة إنذار</label>
+                <label><input type="checkbox" id="p_parent_call" onchange="toggleStudentDateLog('parent_call', this.checked)"> استدعاء ولي أمر</label>
                 <label><input type="checkbox" id="p_phone" onchange="toggleStudentDateLog('phone', this.checked)"> استخدام هاتف</label>
             </div>
 
-            <h3 style="margin-top:25px; border-right: 4px solid var(--primary); padding-right: 8px;">📊 السجل التاريخي الكامل للطالب (التقرير المفصل)</h3>
+            <h3 style="margin-top:25px; border-right: 4px solid var(--primary); padding-right: 8px;">📊 السجل التاريخي الكامل للطالب</h3>
             <table class="report-table">
                 <thead>
-                    <tr>
-                        <th>نوع الحادثة / السلوك</th>
-                        <th>عدد المرات</th>
-                        <th>التواريخ المسجلة بالكامل</th>
-                    </tr>
+                    <tr><th>نوع الحادثة / السلوك</th><th>عدد المرات</th><th>التواريخ المسجلة</th></tr>
                 </thead>
                 <tbody id="reportTableBody"></tbody>
             </table>
         </div>
     </div>
 
+    <!-- Modal Add/Edit Student -->
+    <div class="modal" id="studentFormModal">
+        <div class="modal-content" style="max-width: 450px;">
+            <span class="close-btn" onclick="closeStudentFormModal()">&times;</span>
+            <h2 id="formModalTitle" style="color:var(--primary); margin-bottom:15px;">إضافة طالب جديد</h2>
+            <label><b>اسم الطالب الرباعي:</b></label>
+            <input type="text" id="inputStudentName" class="form-control" placeholder="أدخل اسم الطالب الكامل">
+            <label style="margin-top:10px; display:block;"><b>الشعبة:</b></label>
+            <select id="inputClassName" class="form-control"></select>
+            <button class="btn btn-success" style="width:100%; margin-top:15px; padding:12px;" onclick="saveStudentForm()">💾 حفظ وتحديث الشيت</button>
+        </div>
+    </div>
+
     <script>
-        const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzTaPNSMiR5sR_MSp6a8hKPg21C6-eCY2Bvthvmn2Am7T78yFMwDK_NXM3tu6u8cd0s/exec";
+        const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzx4JRU-dMtqih-H85egWYCUugxpNPNJAm3yRQLvvii1aZ6Z44dK1zR9LkZhLxWMwJO/exec";
 
-        const studentsData = {
-            "اول أ": ["ابراهيم نضال شكري ابورمان", "احمد لؤي احمد الزعبي", "احمد محمد بدر الطويل", "احمد ناصر محمد الخرابشه", "المنذر احمد محمود العبادي", "اياس حازم يوسف الدباس", "باسل فادي يوسف الزعبي", "بدر الدين عبد القادر الهباهبه", "ثائر خالد صبحي ابو رمان", "جعفر محمود خليل الشبلي", "حسن رائد عبد اللطيف ابو عنزه", "حمزه احمد محمود جابر", "حمزة سامي مفلح الفاعوري", "حمزه شادي شاهر النبر", "حمزة علي محمود الجغبير", "خالد وليد احمد الخرابشه", "راشد بلال خلف الدباس", "راكان عبد الله حمود الزعبي", "سعد خالد مصطفى ابو غنمي", "سعيد عمر سعيد خريسات", "سيف الحاكم خليفه سليمان العبادي", "سيف الدين محمد نمر الحياري", "سيف علي عبد الرزاق خريسات", "صهيب هيثم عوني الخصاونه", "عبد الله عبد الكريم حلمي العطيات", "علي طارق خالد العبداللات", "عمر معاذ يوسف خريسات", "فارس امجد عبد القادر الحمود", "محمد خلدون عبد الله الخريسات", "محمد خليل ابراهيم الهباشين", "محمد موفق محمد ابو رمان", "يمان بلال ابراهيم الخريسات"],
-            "اول ب": ["ابراهيم حسين إبراهيم أبو سليم", "احمد طلال محمد طبلت", "احمد عودة عبد الله الزعبي", "احمد عيسى احمد عبد الحفيظ", "احمد فادي فؤاد قطيشات", "احمد مجدي خليل ابورمان", "ادهم هيثم خلف خريسات", "امير احمد ابراهيم الجغبير", "امير علي خليل ابو ديه", "انيبال عامر عادل القاضي", "اوس سامر يوسف الزعبي", "اوس علي محمد خريسات", "بشار طارق عبد الكريم ابو حمور", "حمزه خالد سليم الهزايمه", "حمزة خليل ابراهيم خليفات", "حمزه علاء محمد عربيات", "راشد انس عادل الخريسات", "راشد محمود احمد الحياري", "زيد حسين علي الدباس", "سالم راكز سالم ابورمان", "سند محمد علي خليفات", "سند محمود حاتم حياصات", "صهيب انس يحيى خريسات", "عباده محمد يوسف ابورمان", "عبد الله احمد سالم الدباس", "عبد الله عامر خليل ابو سليم", "عبد المجيد رأفت عبد المجيد الزعبي", "عدي حلمي مفلح الحياري", "عمر طاهر عمر الحياري", "عمر معتصم عبد القادر خريسات", "فارس احمد عبد الرحمن عربيات", "مالك عبد الحفيظ احمد الخرابشه", "محمد فراس عبد الله الحياري"],
-            "اول ج": ["احمد حسن فريد أبو قرندل", "امير رعد نايف النسور", "تيم فارس محمد الهبيشان", "جعفر مصطفى عبد الحليم ابو حمور", "حسام الدين اسامه بادي عودات", "حمزه عبد الرحمن يوسف الحياري", "حمزة علي محمد الحياري", "راشد بلال طاهر خريسات", "راشد مالك ممدوح الهزايمه", "ريان محمد عبد الناصر الزعبي", "سيف الدين ابراهيم ناصر الجغبير", "سيف الدين محمد عبد الرزاق عربيات", "صالح شادي ابراهيم ابو رمان", "صهيب شادي شاهر ابو غنمي", "عبد الله خلدون احمد خريسات", "عبد الله زياد طه حياصات", "عبد الله صالح محمد الحياري", "عبد المجيد مهند عبد المجيد الدباس", "عز الدين عبد الفتاح خالد الحياري", "عمر خالد طه الفاعوري", "عمر محمد منذر الخرابشه", "عمر محمود عبد الوهاب الوشاح", "فارس ابراهيم مطر ابو رمان", "فراس خليل احمد الخريسات", "فيصل رائد منير الريس", "محمد بكر فيصل الحياري", "محمد خالد علي الريس", "محمد زياد محمد خريسات", "محمد سفيان خلف الدباس", "محمد عماد الدين طه قطيشات", "محمود خلدون احمد حياصات", "محمود رائد محمود الجزازي", "معتز بالله شادي حسين نصر الله"],
-            "اول د": ["ابراهيم فارس عبد الحليم الحياري", "احمد عبد الاله عز الدين الطقز", "احمد مصلح احمد الرشدان", "احمد نضال مروان خريسات", "احمد ينال احمد حياصات", "ادهم نائل شفيق زعمط", "اسامه سامح احمد الزعبي", "امير سائد نضال الفاعوري", "ايسر خالد ابراهيم العايد", "تميم شادي طاهر خريسات", "جعفر خلدون احمد الحياري", "حسني محمد حسني العايد", "حمزة خلدون علي الزعبي", "حمزه نائل حسين ابو حمور", "داوود يعقوب داود ابو الخيل", "راكان عبد الله محمد الفاعوري", "سعد الدين عبد الرحيم محمد العوامله", "سلطان مهند عبد الجليل حياصات", "سليمان خلف سليمان ابو ديه", "سند محمد محمود ابو السمن", "سيف الدين طارق عبد الحميد خريسات", "سيف نضال مصطفى الدباس", "عبد الرحمن علاء عبد الحافظ الحياري", "علاء الدين منير فايز ابو طالب", "علي معتصم ابراهيم العطيات", "عمر رائد محمود عربيات", "عمر شاهر شادي الزعبي", "عمر عبد السلام عبد الله النسور", "قيس ممدوح عبد الله الزعبي", "محمد معن انور الحياري"],
-            "اول هـ": ["احمد علاء الدين احمد المغربي", "اصيل بكر علي الحياري", "المنتصر بالله نضال فلاح أبو هزيم", "ايسر بلال مطيع ابو عنزه", "بدر الدين بلال نهار الحياري", "بدر مصطفى عبد الحليم الجغبير", "جعفر حسام شاكر الجغبير", "جعفر صادق محمود الخريسات", "حمزه احمد سالم الحياري", "حمزه حسام الدين نايف العطيات", "حمزه ماهر محمد كلوب", "حمزة محمد عبد الرحيم الحياري", "خالد وليد احمد خليفات", "راشد نضال حسين ابو حمور", "زيد رائد مصطفى الشقران", "سند مهند عبد الكريم خريسات", "سيف نضال احمد النسور", "صالح محمد صالح العمايره", "طارق زاهي مصطفى الشقران", "عبد الرحمن ثائر عبد العزيز العطيات", "عبد الله حمزه عبد الفتاح الحياري", "عبد الله رائد عبد الحليم خريسات", "عبد الله فادي يوسف الخريسات", "عبد الله مجدي محمود العطيات", "عبد الرحمن سيف الدين طارق عربيات", "علي حسن علي الهزايمه", "علي ماهر صبحي العايد", "عمار مهند عبد الكريم خريسات", "عمر شادي علي الحياري", "كرم لؤي محمد العربيات", "محمد احمد طه الحياري", "محمد بلال فلاح خريسات", "محمد سامر منير الحياري", "محمد صدام بليغ الهنداوي", "محمد موفق محمد القناوي"],
-            "اول و": ["ابراهيم إبراهيم محمد الحليق", "ابراهيم بلال محمد العوامله", "احمد عماد خليل الخرابشه", "احمد فادي فايز النسور", "احمد مالك درويش الجزازي", "احمد محمد سليم الزعبي", "اسامه عبد الناصر احمد العمايره", "امير فادي سليم الدباس", "امير هيثم عيسى الخريسات", "تيمور عبد الخالق مصطفى حياصات", "حمزة ابراهيم سالم العوايشه", "حمزه زاهر ناصر الهزايمه", "حمزه محمد عيسى حياصات", "داود هيثم داود حياصات", "راشد علي عبد الحافظ الحياري", "راشد محمد احمد النسور", "زيد احمد محمود جابر", "زيد لؤي هاني قطيشات", "سالم رامي سالم العطيات", "سند احمد سليم الخرابشه", "سيف الدين رائد نايف النسور", "عبد الله احمد ابراهيم العايد", "عبد الله سفيان عبد الرزاق خريسات", "علاء الدين عامر سليم حياصات", "علي حسام الدين اسعد الدباس", "عمر احمد محمود كلوب", "عمر عبد القادر نضال الحياري", "عيسى محمد عيسى الدباس", "محمد حسام احمد الشقران", "محمد خلدون محمد العطيات", "محمد فايز عبد الرحمن الزعبي", "محمد محمود ابراهيم العطيات", "يحيى هيثم يحيى ابورمان"],
-            "اول ز": ["احمد خالد محمد الزعبي", "احمد خالد يوسف عربيات", "احمد محمد عودة الفاعوري", "احمد محمود صبحي ابو حمور", "ادهم امجد محمد النعيمات", "ادهم حسام خليل ابو ديه", "اسماعيل عبد الله ابراهيم الخريسات", "امير بلال احمد حياصات", "بشر انس بشير النسور", "بهاء الدين يحيى عبد المهدي حياصات", "حمزه حاتم طه خريسات", "حمزه راكز عبد الهادي العطيات", "حمزه محمد احمد عبد الجليل", "داود مروان عبد الكريم حياصات", "راشد محمد خليف الدباس", "راكان بلال علي خريسات", "زيد سامر شريف خريسات", "زيد صالح عبد الخالق ابو نوار", "زيد معن علي الحياري", "سند هيثم داود ابو حمور", "شهم محمد يوسف ابو رمان", "صالح شادي صالح عربيات", "صهيب خليل محمد الخريسات", "عبد العزيز خلدون عبد العزيز الفاعوري", "عدي رائد صبحي الجغبير", "عمر احمد خليل الجغبير", "عمر محمد مطيع العطيات", "عمر موسى محمد السليمات", "مالك عبد السلام يوسف النسور", "محمد رعد عبد الخالق الحياري", "هاشم خالد احمد العطيات"],
-            "اول ي": ["احمد عبد الناصر ناصر الشباني", "حازم حميده اسعد جاد الله", "خالد بلال احمد خريسات", "راشد خلدون خليل الفاعوري", "راشد طاهر مصطفى حياصات", "زيد حسام الدين علي خريسات", "سند رامي احمد الحياري", "سيف الدين علاء الدين مفلح الدباس", "سيف محمد ممدوح الشوملي", "عبد الرحمن صقر عيد الوشاح", "عبد الله معتصم محمود كلوب", "عمر صهيب عبد الوهاب حياصات", "عمر طارق عبد اللطيف الفاعوري", "غيث عامر زياد الزعبي", "فارس احمد محمود العبادي", "محمد بادي محمد الدباس", "محمد بسام عبد الكريم العطيات", "محمد زاهر شفيق ابورمان", "هاشم معتز عبد الرحيم حياصات", "يمان علاء جميل الفاعوري"]
-        };
+        let studentsData = {};
+        let studentLogs = {};
+        let currentClass = "";
+        let currentDate = new Date().toLocaleDateString('en-CA');
 
-        let currentClass = "اول أ";
-        let currentDate = new Date().toISOString().split('T')[0];
-        let studentLogs = JSON.parse(localStorage.getItem('student_logs_v4')) || {};
         let activeStudentForProfile = null;
+        let isEditingStudent = false;
+
+        const defaultClasses = ["توجيهي أ", "توجيهي ب", "توجيهي ج", "توجيهي د", "توجيهي هـ", "توجيهي و", "توجيهي ز", "اول أ", "اول ب", "اول ج", "اول د", "اول هـ", "اول و", "اول ز", "اول ي"];
 
         document.getElementById('attendanceDate').value = currentDate;
 
-        function init() {
-            renderTabs();
-            renderStudents();
-            fetchDataFromSheets();
+        const arabicLettersOrder = ['أ', 'إ', 'آ', 'ب', 'ج', 'د', 'ه', 'و', 'ز', 'ي'];
+
+        function getSectionSortWeight(className) {
+            let gradePrefix = className.includes('توجيهي') ? 1 : 2;
+            let cleanName = className.replace(/توجيهي|أول|اول|شعبة|\s+/g, '');
+            let letter = cleanName[0] || '';
+            let letterIndex = arabicLettersOrder.indexOf(letter);
+            if (letterIndex === -1) letterIndex = 99;
+            return gradePrefix * 100 + letterIndex;
         }
 
         function parseCleanDates(str) {
-            if (!str || str === "لا" || str === "لا يوجد" || str === "لا يوجد غياب" || str === "null") return [];
-            
+            if (!str || str === "لا" || str === "لا يوجد" || str === "null") return [];
             let parts = String(str).split(' | ');
             let cleaned = [];
-
             parts.forEach(p => {
-                let trimmed = p.trim();
-                if (trimmed.includes('T')) trimmed = trimmed.split('T')[0];
-                if (trimmed && trimmed !== "لا" && trimmed !== "لا يوجد" && trimmed !== "null" && trimmed !== "undefined") {
-                    if (!cleaned.includes(trimmed)) {
-                        cleaned.push(trimmed);
-                    }
+                let trimmed = p.trim().split('T')[0];
+                if (trimmed && trimmed !== "لا" && trimmed !== "لا يوجد") {
+                    if (!cleaned.includes(trimmed)) cleaned.push(trimmed);
                 }
             });
-
             return cleaned;
         }
 
+        function sortStudentsAlphabetically() {
+            Object.keys(studentsData).forEach(cls => {
+                if (Array.isArray(studentsData[cls])) {
+                    studentsData[cls].sort((a, b) => a.localeCompare(b, 'ar'));
+                }
+            });
+        }
+
         function fetchDataFromSheets() {
-            fetch(GOOGLE_SHEET_SCRIPT_URL)
+            const statusEl = document.getElementById('syncStatus');
+            statusEl.className = 'sync-status loading';
+            statusEl.innerText = '⏳ جاري جلب الأسماء والسجلات من قوقل شيت...';
+
+            fetch(GOOGLE_SHEET_SCRIPT_URL + '?t=' + new Date().getTime(), { cache: 'no-store' })
                 .then(res => res.json())
                 .then(data => {
-                    if (Array.isArray(data)) {
-                        studentLogs = {}; 
-                        data.forEach(row => {
+                    studentLogs = {};
+                    studentsData = {}; 
+
+                    if (data.logs) {
+                        data.logs.forEach(row => {
                             if (!row.studentName) return;
                             studentLogs[row.studentName] = {
                                 absent: parseCleanDates(row.absentDates),
@@ -286,30 +316,125 @@
                                 repeat_exit: parseCleanDates(row.exitDates),
                                 warning: parseCleanDates(row.warningDates),
                                 pledge: parseCleanDates(row.pledgeDates),
+                                formal_warning: parseCleanDates(row.formalWarningDates),
+                                parent_call: parseCleanDates(row.parentCallDates),
                                 phone: parseCleanDates(row.phoneDates)
                             };
                         });
-                        localStorage.setItem('student_logs_v4', JSON.stringify(studentLogs));
-                        renderStudents();
                     }
+
+                    if (data.students) {
+                        studentsData = data.students;
+                    }
+
+                    defaultClasses.forEach(cls => {
+                        if (!studentsData[cls]) {
+                            studentsData[cls] = [];
+                        }
+                    });
+
+                    sortStudentsAlphabetically();
+                    
+                    const sortedClasses = Object.keys(studentsData).sort((a, b) => getSectionSortWeight(a) - getSectionSortWeight(b));
+                    if (sortedClasses.length > 0 && (!currentClass || !studentsData[currentClass])) {
+                        currentClass = sortedClasses[0];
+                    }
+
+                    renderTabs();
+                    renderStudents();
+                    statusEl.className = 'sync-status ok';
+                    statusEl.innerText = '✅ تم التحديث بنجاح';
+                })
+                .catch(err => {
+                    console.error(err);
+                    defaultClasses.forEach(cls => { if (!studentsData[cls]) studentsData[cls] = []; });
+                    renderTabs();
+                    renderStudents();
+                    statusEl.className = 'sync-status error';
+                    statusEl.innerText = '⚠️ خطأ في الاتصال (تم عرض الشعب الافتراضية)';
                 });
         }
 
         function renderTabs() {
             const tabsContainer = document.getElementById('classTabs');
             tabsContainer.innerHTML = '';
-            Object.keys(studentsData).forEach(cls => {
-                const btn = document.createElement('button');
-                btn.className = `tab-btn ${cls === currentClass ? 'active' : ''}`;
-                btn.innerText = `شعبة (${cls})`;
-                btn.onclick = () => {
-                    currentClass = cls;
-                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    renderStudents();
-                };
-                tabsContainer.appendChild(btn);
-            });
+            
+            const allClasses = Object.keys(studentsData).sort((a, b) => getSectionSortWeight(a) - getSectionSortWeight(b));
+            
+            const tawjihiClasses = allClasses.filter(c => c.includes('توجيهي'));
+            const firstSecClasses = allClasses.filter(c => c.includes('أول') || c.includes('اول') || c.includes('الثانوي'));
+
+            if (tawjihiClasses.length > 0) {
+                const groupTitle1 = document.createElement('div');
+                groupTitle1.className = 'grade-group-title';
+                groupTitle1.innerText = '📚 مرحلة التوجيهي';
+                tabsContainer.appendChild(groupTitle1);
+
+                const row1 = document.createElement('div');
+                row1.className = 'class-tabs';
+                tawjihiClasses.forEach(cls => {
+                    const btn = document.createElement('button');
+                    btn.className = `tab-btn ${cls === currentClass ? 'active' : ''}`;
+                    btn.innerText = `شعبة (${cls})`;
+                    btn.onclick = () => {
+                        currentClass = cls;
+                        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        renderStudents();
+                    };
+                    row1.appendChild(btn);
+                });
+                tabsContainer.appendChild(row1);
+            }
+
+            if (firstSecClasses.length > 0) {
+                const groupTitle2 = document.createElement('div');
+                groupTitle2.className = 'grade-group-title';
+                groupTitle2.innerText = '📘 مرحلة الأول ثانوي';
+                tabsContainer.appendChild(groupTitle2);
+
+                const row2 = document.createElement('div');
+                row2.className = 'class-tabs';
+                firstSecClasses.forEach(cls => {
+                    const btn = document.createElement('button');
+                    btn.className = `tab-btn ${cls === currentClass ? 'active' : ''}`;
+                    btn.innerText = `شعبة (${cls})`;
+                    btn.onclick = () => {
+                        currentClass = cls;
+                        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        renderStudents();
+                    };
+                    row2.appendChild(btn);
+                });
+                tabsContainer.appendChild(row2);
+            }
+        }
+
+        function updateClassDropdown(selectedVal = "") {
+            const selectEl = document.getElementById('inputClassName');
+            selectEl.innerHTML = '';
+            
+            const allClasses = Object.keys(studentsData).sort((a, b) => getSectionSortWeight(a) - getSectionSortWeight(b));
+            const tawjihiClasses = allClasses.filter(c => c.includes('توجيهي'));
+            const firstSecClasses = allClasses.filter(c => c.includes('أول') || c.includes('اول') || c.includes('الثانوي'));
+
+            const addOptGroup = (label, items) => {
+                if (items.length === 0) return;
+                const group = document.createElement('optgroup');
+                group.label = label;
+                items.forEach(cls => {
+                    const option = document.createElement('option');
+                    option.value = cls;
+                    option.innerText = `شعبة (${cls})`;
+                    if (cls === selectedVal) option.selected = true;
+                    group.appendChild(option);
+                });
+                selectEl.appendChild(group);
+            };
+
+            addOptGroup('مرحلة التوجيهي', tawjihiClasses);
+            addOptGroup('مرحلة الأول ثانوي', firstSecClasses);
         }
 
         function getStudentFieldDates(studentName, field) {
@@ -324,12 +449,19 @@
 
             if (searchValue !== '') {
                 Object.keys(studentsData).forEach(cls => {
-                    studentsData[cls].forEach(name => {
+                    (studentsData[cls] || []).forEach(name => {
                         if (name.includes(searchValue)) studentsToDisplay.push({ name, class: cls });
                     });
                 });
             } else {
-                studentsToDisplay = studentsData[currentClass].map(name => ({ name, class: currentClass }));
+                if (currentClass && studentsData[currentClass]) {
+                    studentsToDisplay = studentsData[currentClass].map(name => ({ name, class: currentClass }));
+                }
+            }
+
+            if (studentsToDisplay.length === 0) {
+                listContainer.innerHTML = `<div style="text-align:center; padding:30px; color:#777; background:white; border-radius:var(--radius);">لا يوجد طلاب مسجلين في هذه الشعبة حالياً.</div>`;
+                return;
             }
 
             studentsToDisplay.forEach(st => {
@@ -344,13 +476,13 @@
                     <div>
                         <span class="student-name" onclick="openProfile('${st.name}', '${st.class}')">${st.name}</span>
                         ${isExceededLimit ? `<span class="warning-badge">⚠️ تجاوز حد الغياب (${totalAbsentCount} أيام)</span>` : ''}
-                        <div style="font-size:0.8rem; color:#666; margin-top:4px;">الشعبة: ${st.class} | غياباته الكلية: <b>${totalAbsentCount}</b> يوم</div>
+                        <div style="font-size:0.8rem; color:#666; margin-top:4px;">الشعبة: ${st.class} | إجمالي الغياب: <b>${totalAbsentCount}</b> يوم</div>
                     </div>
                     <div>
                         <label style="font-weight:bold; cursor:pointer;">
                             <input type="checkbox" ${isAbsentToday ? 'checked' : ''} onchange="toggleStudentDateLogDirect('${st.name}', 'absent', this.checked)"> غياب اليوم
                         </label>
-                        <button class="btn btn-primary" style="margin-right:10px;" onclick="openProfile('${st.name}', '${st.class}')">📁 البروفايل والتقرير</button>
+                        <button class="btn btn-primary" style="margin-right:10px;" onclick="openProfile('${st.name}', '${st.class}')">📁 البروفايل</button>
                     </div>
                 `;
                 listContainer.appendChild(card);
@@ -359,7 +491,7 @@
 
         function toggleStudentDateLogDirect(studentName, field, isChecked) {
             if (!studentLogs[studentName]) {
-                studentLogs[studentName] = { absent: [], delay: [], early_exit: [], escape: [], repeat_exit: [], warning: [], pledge: [], phone: [] };
+                studentLogs[studentName] = { absent: [], delay: [], early_exit: [], escape: [], repeat_exit: [], warning: [], pledge: [], formal_warning: [], parent_call: [], phone: [] };
             }
             let list = studentLogs[studentName][field] || [];
             if (isChecked) {
@@ -368,63 +500,49 @@
                 list = list.filter(d => d !== currentDate);
             }
             studentLogs[studentName][field] = list;
-            localStorage.setItem('student_logs_v4', JSON.stringify(studentLogs));
             renderStudents();
-            sendSingleStudentToSheets(studentName);
+            sendStudentDataToServer(studentName);
         }
 
         function openProfile(studentName, className) {
             activeStudentForProfile = studentName;
             const absDates = getStudentFieldDates(studentName, 'absent');
-            const totalAbs = absDates.length;
-            
-            document.getElementById('modalStudentName').innerHTML = `${studentName} ${totalAbs >= 6 ? `<span class="warning-badge">⚠️ تجاوز حد الغياب (${totalAbs} أيام)</span>` : ''}`;
+            document.getElementById('modalStudentName').innerHTML = `${studentName} ${absDates.length >= 6 ? `<span class="warning-badge">⚠️ تجاوز الحد (${absDates.length})</span>` : ''}`;
             document.getElementById('modalStudentClass').innerText = `الصف والشعبة: ${className}`;
             document.getElementById('selectedDateLabel').innerText = currentDate;
 
-            const fields = ['delay', 'early_exit', 'escape', 'repeat_exit', 'warning', 'pledge', 'phone'];
-            fields.forEach(field => {
-                const dates = getStudentFieldDates(studentName, field);
+            ['delay', 'early_exit', 'escape', 'repeat_exit', 'warning', 'pledge', 'formal_warning', 'parent_call', 'phone'].forEach(field => {
                 const chk = document.getElementById(`p_${field}`);
-                if (chk) chk.checked = dates.includes(currentDate);
+                if (chk) chk.checked = getStudentFieldDates(studentName, field).includes(currentDate);
             });
 
-            const del = getStudentFieldDates(studentName, 'delay');
-            const ee = getStudentFieldDates(studentName, 'early_exit');
-            const esc = getStudentFieldDates(studentName, 'escape');
-            const ph = getStudentFieldDates(studentName, 'phone');
-            const warn = getStudentFieldDates(studentName, 'warning').length + getStudentFieldDates(studentName, 'pledge').length;
-
-            document.getElementById('stat_absent').innerText = totalAbs;
-            document.getElementById('stat_delay').innerText = del.length;
-            document.getElementById('stat_early_exit').innerText = ee.length;
-            document.getElementById('stat_escape').innerText = esc.length;
-            document.getElementById('stat_phone').innerText = ph.length;
-            document.getElementById('stat_warning').innerText = warn;
+            document.getElementById('stat_absent').innerText = absDates.length;
+            document.getElementById('stat_delay').innerText = getStudentFieldDates(studentName, 'delay').length;
+            document.getElementById('stat_early_exit').innerText = getStudentFieldDates(studentName, 'early_exit').length;
+            document.getElementById('stat_escape').innerText = getStudentFieldDates(studentName, 'escape').length;
+            document.getElementById('stat_phone').innerText = getStudentFieldDates(studentName, 'phone').length;
+            document.getElementById('stat_warning').innerText = getStudentFieldDates(studentName, 'warning').length + getStudentFieldDates(studentName, 'pledge').length;
+            document.getElementById('stat_formal_warning').innerText = getStudentFieldDates(studentName, 'formal_warning').length;
+            document.getElementById('stat_parent_call').innerText = getStudentFieldDates(studentName, 'parent_call').length;
 
             const tableBody = document.getElementById('reportTableBody');
             tableBody.innerHTML = '';
-
-            const labelMap = {
-                absent: 'غياب كلي',
-                delay: 'تأخير صباحي',
-                early_exit: 'مغادرة مبكرة',
-                escape: 'هروب من المدرسة/الحصة',
-                repeat_exit: 'تكرار الخروج من الصف',
-                warning: 'عقوبة تنبيه',
-                pledge: 'عقوبة تعهد خطي',
-                phone: 'استخدام الهاتف المحمول'
+            const labels = { 
+                absent: 'غياب كلي', 
+                delay: 'تأخير صباحي', 
+                early_exit: 'مغادرة مبكرة', 
+                escape: 'هروب', 
+                repeat_exit: 'تكرار خروج', 
+                warning: 'تنبيه', 
+                pledge: 'تعهد خطي', 
+                formal_warning: 'عقوبة إنذار',
+                parent_call: 'استدعاء ولي أمر',
+                phone: 'هاتف' 
             };
 
-            Object.keys(labelMap).forEach(key => {
-                const datesList = getStudentFieldDates(studentName, key);
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><b>${labelMap[key]}</b></td>
-                    <td><span class="badge ${datesList.length>0?'badge-danger':''}">${datesList.length}</span></td>
-                    <td>${datesList.length > 0 ? datesList.join(' | ') : '<span style="color:#aaa;">لا يوجد تواريخ مسجلة</span>'}</td>
-                `;
-                tableBody.appendChild(tr);
+            Object.keys(labels).forEach(key => {
+                let dList = getStudentFieldDates(studentName, key);
+                tableBody.innerHTML += `<tr><td><b>${labels[key]}</b></td><td><span class="badge ${dList.length>0?'badge-danger':''}">${dList.length}</span></td><td>${dList.length > 0 ? dList.join(' | ') : '<span style="color:#aaa;">لا يوجد</span>'}</td></tr>`;
             });
 
             document.getElementById('profileModal').style.display = 'flex';
@@ -436,42 +554,107 @@
             openProfile(activeStudentForProfile, document.getElementById('modalStudentClass').innerText.replace('الصف والشعبة: ', ''));
         }
 
-        function closeModal() {
-            document.getElementById('profileModal').style.display = 'none';
-            activeStudentForProfile = null;
+        function closeModal() { document.getElementById('profileModal').style.display = 'none'; activeStudentForProfile = null; }
+
+        function openAddStudentModal() {
+            isEditingStudent = false;
+            document.getElementById('formModalTitle').innerText = 'إضافة طالب جديد';
+            document.getElementById('inputStudentName').value = '';
+            updateClassDropdown(currentClass || '');
+            document.getElementById('studentFormModal').style.display = 'flex';
         }
 
-        function sendSingleStudentToSheets(studentName) {
+        function openEditStudentModal() {
+            if (!activeStudentForProfile) return;
+            let currentClassVal = "";
+            Object.keys(studentsData).forEach(cls => {
+                if ((studentsData[cls] || []).includes(activeStudentForProfile)) currentClassVal = cls;
+            });
+            isEditingStudent = true;
+            document.getElementById('formModalTitle').innerText = 'تعديل بيانات الطالب';
+            document.getElementById('inputStudentName').value = activeStudentForProfile;
+            updateClassDropdown(currentClassVal);
+            document.getElementById('studentFormModal').style.display = 'flex';
+        }
+
+        function closeStudentFormModal() { document.getElementById('studentFormModal').style.display = 'none'; }
+
+        function saveStudentForm() {
+            const newName = document.getElementById('inputStudentName').value.trim();
+            const newClass = document.getElementById('inputClassName').value.trim();
+            if (!newName || !newClass) {
+                alert('الرجاء إدخال اسم الطالب والشعبة بشكل صحيح!');
+                return;
+            }
+
+            const subAction = isEditingStudent ? 'edit' : 'add';
+            const oldName = activeStudentForProfile;
+
+            fetch(GOOGLE_SHEET_SCRIPT_URL, {
+                method: "POST", mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    action: "updateStudentList",
+                    subAction: subAction,
+                    studentName: newName,
+                    className: newClass,
+                    oldName: oldName
+                })
+            }).then(() => {
+                closeStudentFormModal();
+                closeModal();
+                setTimeout(fetchDataFromSheets, 1500);
+            });
+        }
+
+        function deleteCurrentStudent() {
+            if (!activeStudentForProfile) return;
+            if (!confirm(`هل أنت متأكد من حذف الطالب (${activeStudentForProfile}) نهائياً من القائمة والشيت؟`)) return;
+
+            fetch(GOOGLE_SHEET_SCRIPT_URL, {
+                method: "POST", mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    action: "updateServerList",
+                    subAction: "delete",
+                    studentName: activeStudentForProfile
+                })
+            }).then(() => {
+                closeModal();
+                setTimeout(fetchDataFromSheets, 1500);
+            });
+        }
+
+        function sendStudentDataToServer(studentName) {
             let className = "";
             Object.keys(studentsData).forEach(cls => {
-                if (studentsData[cls].includes(studentName)) className = cls;
+                if ((studentsData[cls] || []).includes(studentName)) className = cls;
             });
 
             const logs = studentLogs[studentName] || {};
             const formatDates = (arr) => (arr && arr.length > 0) ? arr.join(' | ') : "لا يوجد";
 
-            const payload = {
-                studentName: studentName,
-                className: className,
-                absentDates: formatDates(logs.absent),
-                delayDates: formatDates(logs.delay),
-                earlyExitDates: formatDates(logs.early_exit),
-                escapeDates: formatDates(logs.escape),
-                exitDates: formatDates(logs.repeat_exit),
-                warningDates: formatDates(logs.warning),
-                pledgeDates: formatDates(logs.pledge),
-                phoneDates: formatDates(logs.phone)
-            };
-
             fetch(GOOGLE_SHEET_SCRIPT_URL, {
-                method: "POST",
-                mode: "no-cors",
+                method: "POST", mode: "no-cors",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
+                body: JSON.stringify({
+                    studentName: studentName,
+                    className: className,
+                    absentDates: formatDates(logs.absent),
+                    delayDates: formatDates(logs.delay),
+                    earlyExitDates: formatDates(logs.early_exit),
+                    escapeDates: formatDates(logs.escape),
+                    exitDates: formatDates(logs.repeat_exit),
+                    warningDates: formatDates(logs.warning),
+                    pledgeDates: formatDates(logs.pledge),
+                    formalWarningDates: formatDates(logs.formal_warning),
+                    parentCallDates: formatDates(logs.parent_call),
+                    phoneDates: formatDates(logs.phone)
+                })
             });
         }
 
-        init();
+        fetchDataFromSheets();
     </script>
 </body>
 </html>
