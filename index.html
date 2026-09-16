@@ -24,31 +24,41 @@
 
         header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white; padding: 20px 20px 15px 20px; text-align: center; border-bottom: 4px solid var(--accent);
+            color: white; padding: 15px 20px; text-align: center; border-bottom: 4px solid var(--accent);
             position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
 
         .developer-tag {
-            position: absolute; top: 10px; left: 15px; font-size: 0.8rem;
+            position: absolute; top: 8px; left: 15px; font-size: 0.75rem;
             color: rgba(255, 255, 255, 0.85); font-family: Arial, sans-serif; font-weight: bold; direction: ltr;
+        }
+
+        .header-container {
+            display: grid;
+            grid-template-columns: 100px 1fr 100px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 15px;
+        }
+
+        .header-logo {
+            width: 85px;
+            height: 85px;
+            object-fit: contain;
+            background: transparent;
+            border-radius: 0;
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.2));
         }
 
         .header-content {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
         }
 
-        .school-logo {
-            width: 55px;
-            height: 55px;
-            border: none;            
-            border-radius: 0;        
-            object-fit: contain;     
-            background: transparent; 
-            margin-bottom: 5px;
-        }
+        .header-content h1 { font-size: 1.6rem; margin: 0; }
 
         .admin-staff {
             font-size: 0.85rem;
@@ -61,12 +71,60 @@
         }
 
         .admin-staff span {
-            background: rgba(0, 0, 0, 0.15);
-            padding: 2px 8px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 3px 10px;
             border-radius: 6px;
         }
 
+        @media (max-width: 600px) {
+            .header-container { grid-template-columns: 70px 1fr 70px; }
+            .header-logo { width: 65px; height: 65px; }
+            .header-content h1 { font-size: 1.2rem; }
+            .header-content p { font-size: 0.75rem !important; }
+        }
+
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
+
+        /* بطاقات الإحصائيات اليومية */
+        .daily-stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .daily-stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--secondary);
+            text-align: center;
+        }
+
+        .daily-stat-card.danger { border-top-color: var(--danger); }
+        .daily-stat-card.warning { border-top-color: var(--warning); }
+        .daily-stat-card.info { border-top-color: var(--info); }
+        .daily-stat-card.tawjihi { border-top-color: #7209b7; }
+        .daily-stat-card.first-sec { border-top-color: #3a0ca3; }
+
+        .daily-stat-card .val {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 5px 0;
+        }
+
+        .daily-stat-card .sub-val {
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+        .daily-stat-card .lbl {
+            font-size: 0.85rem;
+            color: #444;
+            font-weight: bold;
+        }
 
         .search-box { margin-bottom: 15px; }
         .search-box input {
@@ -149,17 +207,46 @@
 
     <header>
         <div class="developer-tag">Made by: Nihad Alnsour</div>
-        <div class="header-content">
-            <img src="saltSecondarySchool.png" alt="شعار مدرسة السلط الثانوية" class="school-logo" onerror="this.style.display='none'">
-            <h1>مدرسة السلط الثانوية للبنين</h1>
-            <p style="font-size: 0.9rem;">نظام بروفايل الطلاب والتقرير السلوكي الشامل (قاعدة بيانات سحابية)</p>
-            <div class="admin-staff">
-                <span><b>مدير المدرسة:</b> محمد عليان الخرابشة</span>
+        <div class="header-container">
+            <img src="moe_logo.png" alt="شعار وزارة التربية والتعليم" class="header-logo" onerror="this.style.opacity='0'">
+            <div class="header-content">
+                <h1>مدرسة السلط الثانوية للبنين</h1>
+                <p style="font-size: 0.9rem;">نظام بروفايل الطلاب والتقرير السلوكي الشامل (قاعدة بيانات سحابية)</p>
+                <div class="admin-staff">
+                    <span><b>مدير المدرسة:</b> محمد عليان الخرابشة</span>
+                </div>
             </div>
+            <img src="saltSecondarySchool.png" alt="شعار مدرسة السلط الثانوية" class="header-logo" onerror="this.style.opacity='0'">
         </div>
     </header>
 
     <div class="container">
+        
+        <!-- شريط الإحصائيات اليومية التفصيلية -->
+        <div class="daily-stats-container">
+            <div class="daily-stat-card tawjihi">
+                <div class="lbl">غياب التوجيهي اليوم</div>
+                <div class="val" id="tawjihiAbsentPerc">0%</div>
+                <div class="sub-val" id="tawjihiAbsentRatio">(0 من 0)</div>
+            </div>
+            
+            <div class="daily-stat-card first-sec">
+                <div class="lbl">غياب الأول ثانوي اليوم</div>
+                <div class="val" id="firstSecAbsentPerc">0%</div>
+                <div class="sub-val" id="firstSecAbsentRatio">(0 من 0)</div>
+            </div>
+
+            <div class="daily-stat-card danger">
+                <div class="lbl">نسبة الغياب الكلية</div>
+                <div class="val" id="dailyAbsentPercentage">0%</div>
+                <div class="sub-val" id="totalAbsentRatio">(0 غائب من 0)</div>
+            </div>
+
+            <div class="daily-stat-card flex-center" style="display: flex; align-items: center;">
+                <button class="btn btn-primary" style="width: 100%; height: 80%;" onclick="openDailyAbsentReportModal()">📋 قائمة غياب اليوم</button>
+            </div>
+        </div>
+
         <div class="search-box">
             <input type="text" id="globalSearch" placeholder="🔍 بحث عن اسم طالب في جميع الشعب..." oninput="renderStudents()">
         </div>
@@ -173,7 +260,7 @@
         <div class="action-bar">
             <div>
                 <label><b>التاريخ المحدد: </b></label>
-                <input type="date" id="attendanceDate" onchange="currentDate=this.value; renderStudents();">
+                <input type="date" id="attendanceDate" onchange="currentDate=this.value; renderStudents(); calculateDailyStats();">
             </div>
             <div>
                 <button class="btn btn-primary" onclick="fetchDataFromSheets()">🔄 تحديث البيانات</button>
@@ -182,6 +269,31 @@
         </div>
 
         <div class="student-list" id="studentList"></div>
+    </div>
+
+    <!-- نافذة تقرير غياب اليوم الشامل -->
+    <div class="modal" id="dailyAbsentReportModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeDailyAbsentReportModal()">&times;</span>
+            <h2 style="color:var(--primary); margin-bottom:10px;">📋 تقرير غائبين اليوم (<span id="absentReportDate"></span>)</h2>
+            <div id="absentReportSummary" style="font-weight:bold; margin-bottom:15px; color:#555;"></div>
+            
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>اسم الطالب</th>
+                        <th>المرحلة والشعبة</th>
+                        <th>إجمالي غياباته السابقة</th>
+                    </tr>
+                </thead>
+                <tbody id="dailyAbsentTableBody"></tbody>
+            </table>
+            
+            <div style="margin-top: 20px; text-align: left;">
+                <button class="btn btn-primary" onclick="window.print()">🖨️ طباعة التقرير</button>
+            </div>
+        </div>
     </div>
 
     <!-- Modal Profile -->
@@ -294,6 +406,86 @@
             });
         }
 
+        // حساب الإحصائيات الفصلية (توجيهي - أول ثانوي - الإجمالي)
+        function calculateDailyStats() {
+            let totalTawjihi = 0, absentTawjihi = 0;
+            let totalFirstSec = 0, absentFirstSec = 0;
+
+            Object.keys(studentsData).forEach(cls => {
+                const isTawjihi = cls.includes('توجيهي');
+                (studentsData[cls] || []).forEach(studentName => {
+                    let absDates = getStudentFieldDates(studentName, 'absent');
+                    let isAbsentToday = absDates.includes(currentDate);
+
+                    if (isTawjihi) {
+                        totalTawjihi++;
+                        if (isAbsentToday) absentTawjihi++;
+                    } else {
+                        totalFirstSec++;
+                        if (isAbsentToday) absentFirstSec++;
+                    }
+                });
+            });
+
+            let tawjihiPerc = totalTawjihi > 0 ? ((absentTawjihi / totalTawjihi) * 100).toFixed(1) : 0;
+            let firstSecPerc = totalFirstSec > 0 ? ((absentFirstSec / totalFirstSec) * 100).toFixed(1) : 0;
+
+            let grandTotal = totalTawjihi + totalFirstSec;
+            let grandAbsent = absentTawjihi + absentFirstSec;
+            let grandPerc = grandTotal > 0 ? ((grandAbsent / grandTotal) * 100).toFixed(1) : 0;
+
+            // تحديث بطاقة التوجيهي
+            document.getElementById('tawjihiAbsentPerc').innerText = tawjihiPerc + '%';
+            document.getElementById('tawjihiAbsentRatio').innerText = `(${absentTawjihi} من ${totalTawjihi} طالب)`;
+
+            // تحديث بطاقة الأول ثانوي
+            document.getElementById('firstSecAbsentPerc').innerText = firstSecPerc + '%';
+            document.getElementById('firstSecAbsentRatio').innerText = `(${absentFirstSec} من ${totalFirstSec} طالب)`;
+
+            // تحديث بطاقة الإجمالي
+            document.getElementById('dailyAbsentPercentage').innerText = grandPerc + '%';
+            document.getElementById('totalAbsentRatio').innerText = `(${grandAbsent} غائب من ${grandTotal})`;
+        }
+
+        // فتح نافذة تقرير الغائبين
+        function openDailyAbsentReportModal() {
+            document.getElementById('absentReportDate').innerText = currentDate;
+            const tableBody = document.getElementById('dailyAbsentTableBody');
+            tableBody.innerHTML = '';
+
+            let counter = 1;
+            let totalAbsent = 0;
+
+            Object.keys(studentsData).sort((a, b) => getSectionSortWeight(a) - getSectionSortWeight(b)).forEach(cls => {
+                (studentsData[cls] || []).forEach(studentName => {
+                    let absDates = getStudentFieldDates(studentName, 'absent');
+                    if (absDates.includes(currentDate)) {
+                        totalAbsent++;
+                        let tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${counter++}</td>
+                            <td><b>${studentName}</b></td>
+                            <td>${cls}</td>
+                            <td><span class="badge badge-danger">${absDates.length} أيام</span></td>
+                        `;
+                        tableBody.appendChild(tr);
+                    }
+                });
+            });
+
+            document.getElementById('absentReportSummary').innerText = `إجمالي الغائبين اليوم: ${totalAbsent} طالب`;
+
+            if (totalAbsent === 0) {
+                tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#888;">لا يوجد غياب مسجل بتاريخ اليوم.</td></tr>`;
+            }
+
+            document.getElementById('dailyAbsentReportModal').style.display = 'flex';
+        }
+
+        function closeDailyAbsentReportModal() {
+            document.getElementById('dailyAbsentReportModal').style.display = 'none';
+        }
+
         function fetchDataFromSheets() {
             const statusEl = document.getElementById('syncStatus');
             statusEl.className = 'sync-status loading';
@@ -342,6 +534,7 @@
 
                     renderTabs();
                     renderStudents();
+                    calculateDailyStats();
                     statusEl.className = 'sync-status ok';
                     statusEl.innerText = '✅ تم التحديث بنجاح';
                 })
@@ -350,6 +543,7 @@
                     defaultClasses.forEach(cls => { if (!studentsData[cls]) studentsData[cls] = []; });
                     renderTabs();
                     renderStudents();
+                    calculateDailyStats();
                     statusEl.className = 'sync-status error';
                     statusEl.innerText = '⚠️ خطأ في الاتصال (تم عرض الشعب الافتراضية)';
                 });
@@ -501,6 +695,7 @@
             }
             studentLogs[studentName][field] = list;
             renderStudents();
+            calculateDailyStats();
             sendStudentDataToServer(studentName);
         }
 
