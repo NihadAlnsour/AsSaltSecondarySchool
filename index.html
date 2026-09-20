@@ -238,7 +238,6 @@
 
         .form-control { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; }
 
-        /* الإصلاح الكامل لقاعدة الطباعة ومنع الصفحات البيضاء */
         @media print {
             @page { 
                 size: A4 portrait; 
@@ -252,12 +251,10 @@
                 margin: 0 !important;
             }
 
-            /* إخفاء الصفحة الرئيسية وكل العناصر بشكل تام لمنع حجز أي مساحات فارغة */
             header, .container, .modal:not([style*="display: flex"]):not([style*="display: block"]) {
                 display: none !important;
             }
 
-            /* إظهار الـ Modal المفتوح فقط وتفريغ الحاويات من التأثيرات المقيدة */
             .modal[style*="display: flex"], 
             .modal[style*="display: block"] { 
                 display: block !important; 
@@ -283,7 +280,6 @@
                 margin: 0 !important; 
             }
 
-            /* إخفاء الأزرار وعناصر التحكم غير المرغوب بها عند الطباعة داخل الـ Modal */
             .close-btn, 
             .btn,
             .modal-content button, 
@@ -293,7 +289,6 @@
                 display: none !important; 
             }
 
-            /* تنسيق الجداول لتلائم الطباعة الناصعة */
             .report-table { 
                 width: 100% !important; 
                 border-collapse: collapse !important; 
@@ -487,7 +482,7 @@
     </div>
 
     <script>
-        const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzx4JRU-dMtqih-H85egWYCUugxpNPNJAm3yRQLvvii1aZ6Z44dK1zR9LkZhLxWMwJO/exec";
+        const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw46c4MIxKZOoMwaRWc59HUQeiNPxcv44yzUgocQvcuF4ztkxdeZ4oc8JeEQzTnPcZX/exec";
 
         let studentsData = {};
         let studentLogs = {};
@@ -955,17 +950,24 @@
             });
         }
 
+        // الدالة المعدلة التي تقوم بحذف الطالب بالشكل الصحيح من الشيت
         function deleteCurrentStudent() {
             if (!activeStudentForProfile) return;
             if (!confirm(`هل أنت متأكد من حذف الطالب (${activeStudentForProfile}) نهائياً من القائمة والشيت؟`)) return;
+
+            let currentClassVal = "";
+            Object.keys(studentsData).forEach(cls => {
+                if ((studentsData[cls] || []).includes(activeStudentForProfile)) currentClassVal = cls;
+            });
 
             fetch(GOOGLE_SHEET_SCRIPT_URL, {
                 method: "POST", mode: "no-cors",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    action: "updateServerList",
+                    action: "updateStudentList",
                     subAction: "delete",
-                    studentName: activeStudentForProfile
+                    studentName: activeStudentForProfile,
+                    className: currentClassVal
                 })
             }).then(() => {
                 closeModal();
