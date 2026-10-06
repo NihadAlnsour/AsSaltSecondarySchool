@@ -444,6 +444,10 @@
                 <div class="stat-card"><div class="num" id="stat_warning">0</div><div class="label">التنبيهات/التعهدات</div></div>
                 <div class="stat-card"><div class="num" id="stat_formal_warning">0</div><div class="label">الإنذارات</div></div>
                 <div class="stat-card"><div class="num" id="stat_parent_call">0</div><div class="label">استدعاء ولي أمر</div></div>
+                <!-- بطاقات إحصائية جديدة للعقوبات المضافة -->
+                <div class="stat-card"><div class="num" id="stat_class_disrupt">0</div><div class="label">تعطيل حصة</div></div>
+                <div class="stat-card"><div class="num" id="stat_system_alert">0</div><div class="label">إخلال بالنظام</div></div>
+                <div class="stat-card"><div class="num" id="stat_fight_alert">0</div><div class="label">تنبيه مشاجرات</div></div>
             </div>
 
             <h3 style="margin-top:20px; border-right: 4px solid var(--accent); padding-right: 8px;">📋 التسجيل السريع لملاحظة بتاريخ اليوم (<span id="selectedDateLabel"></span>)</h3>
@@ -456,6 +460,10 @@
                 <label><input type="checkbox" id="p_formal_warning" onchange="toggleStudentDateLog('formal_warning', this.checked)"> عقوبة إنذار</label>
                 <label><input type="checkbox" id="p_parent_call" onchange="toggleStudentDateLog('parent_call', this.checked)"> استدعاء ولي أمر</label>
                 <label><input type="checkbox" id="p_phone" onchange="toggleStudentDateLog('phone', this.checked)"> استخدام هاتف</label>
+                <!-- العقوبات الثلاث الجديدة المضافة -->
+                <label><input type="checkbox" id="p_class_disrupt" onchange="toggleStudentDateLog('class_disrupt', this.checked)"> تعطيل سير الحصة</label>
+                <label><input type="checkbox" id="p_system_alert" onchange="toggleStudentDateLog('system_alert', this.checked)"> تنبيه إخلال بالنظام</label>
+                <label><input type="checkbox" id="p_fight_alert" onchange="toggleStudentDateLog('fight_alert', this.checked)"> تنبيه مشاجرات</label>
             </div>
 
             <h3 style="margin-top:25px; border-right: 4px solid var(--primary); padding-right: 8px;">📊 السجل التاريخي الكامل للطالب</h3>
@@ -482,7 +490,7 @@
     </div>
 
     <script>
-        const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw46c4MIxKZOoMwaRWc59HUQeiNPxcv44yzUgocQvcuF4ztkxdeZ4oc8JeEQzTnPcZX/exec";
+        const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzY5DG7tQqJ0vuS8EB2P_dYxPn8hMSitle1KfURXBbBgyK1rc9pUYUmVUuuf5bZjd-K/exec";
 
         let studentsData = {};
         let studentLogs = {};
@@ -641,7 +649,10 @@
                                 pledge: parseCleanDates(row.pledgeDates),
                                 formal_warning: parseCleanDates(row.formalWarningDates),
                                 parent_call: parseCleanDates(row.parentCallDates),
-                                phone: parseCleanDates(row.phoneDates)
+                                phone: parseCleanDates(row.phoneDates),
+                                class_disrupt: parseCleanDates(row.classDisruptDates),
+                                system_alert: parseCleanDates(row.systemAlertDates),
+                                fight_alert: parseCleanDates(row.fightAlertDates)
                             };
                         });
                     }
@@ -831,7 +842,7 @@
 
         function toggleStudentDateLogDirect(studentName, field, isChecked) {
             if (!studentLogs[studentName]) {
-                studentLogs[studentName] = { absent: [], delay: [], early_exit: [], escape: [], repeat_exit: [], warning: [], pledge: [], formal_warning: [], parent_call: [], phone: [] };
+                studentLogs[studentName] = { absent: [], delay: [], early_exit: [], escape: [], repeat_exit: [], warning: [], pledge: [], formal_warning: [], parent_call: [], phone: [], class_disrupt: [], system_alert: [], fight_alert: [] };
             }
             let list = studentLogs[studentName][field] || [];
             if (isChecked) {
@@ -852,7 +863,7 @@
             document.getElementById('modalStudentClass').innerText = `الصف والشعبة: ${className}`;
             document.getElementById('selectedDateLabel').innerText = currentDate;
 
-            ['early_exit', 'escape', 'repeat_exit', 'warning', 'pledge', 'formal_warning', 'parent_call', 'phone'].forEach(field => {
+            ['early_exit', 'escape', 'repeat_exit', 'warning', 'pledge', 'formal_warning', 'parent_call', 'phone', 'class_disrupt', 'system_alert', 'fight_alert'].forEach(field => {
                 const chk = document.getElementById(`p_${field}`);
                 if (chk) chk.checked = getStudentFieldDates(studentName, field).includes(currentDate);
             });
@@ -865,6 +876,9 @@
             document.getElementById('stat_warning').innerText = getStudentFieldDates(studentName, 'warning').length + getStudentFieldDates(studentName, 'pledge').length;
             document.getElementById('stat_formal_warning').innerText = getStudentFieldDates(studentName, 'formal_warning').length;
             document.getElementById('stat_parent_call').innerText = getStudentFieldDates(studentName, 'parent_call').length;
+            document.getElementById('stat_class_disrupt').innerText = getStudentFieldDates(studentName, 'class_disrupt').length;
+            document.getElementById('stat_system_alert').innerText = getStudentFieldDates(studentName, 'system_alert').length;
+            document.getElementById('stat_fight_alert').innerText = getStudentFieldDates(studentName, 'fight_alert').length;
 
             const tableBody = document.getElementById('reportTableBody');
             tableBody.innerHTML = '';
@@ -878,13 +892,16 @@
                 pledge: 'تعهد خطي', 
                 formal_warning: 'عقوبة إنذار',
                 parent_call: 'استدعاء ولي أمر',
-                phone: 'هاتف' 
+                phone: 'هاتف',
+                class_disrupt: 'تعطيل سير الحصة',
+                system_alert: 'تنبيه إخلال بالنظام',
+                fight_alert: 'تنبيه مشاجرات'
             };
 
             Object.keys(labels).forEach(key => {
                 let dList = getStudentFieldDates(studentName, key);
                 let badgeClass = 'badge-danger';
-                if (key === 'delay') badgeClass = 'badge-warning';
+                if (key === 'delay' || key === 'warning') badgeClass = 'badge-warning';
                 tableBody.innerHTML += `<tr><td><b>${labels[key]}</b></td><td><span class="badge ${dList.length>0 ? badgeClass : ''}">${dList.length}</span></td><td>${dList.length > 0 ? dList.join(' | ') : '<span style="color:#aaa;">لا يوجد</span>'}</td></tr>`;
             });
 
@@ -950,7 +967,6 @@
             });
         }
 
-        // الدالة المعدلة التي تقوم بحذف الطالب بالشكل الصحيح من الشيت
         function deleteCurrentStudent() {
             if (!activeStudentForProfile) return;
             if (!confirm(`هل أنت متأكد من حذف الطالب (${activeStudentForProfile}) نهائياً من القائمة والشيت؟`)) return;
@@ -999,7 +1015,10 @@
                     pledgeDates: formatDates(logs.pledge),
                     formalWarningDates: formatDates(logs.formal_warning),
                     parentCallDates: formatDates(logs.parent_call),
-                    phoneDates: formatDates(logs.phone)
+                    phoneDates: formatDates(logs.phone),
+                    classDisruptDates: formatDates(logs.class_disrupt),
+                    systemAlertDates: formatDates(logs.system_alert),
+                    fightAlertDates: formatDates(logs.fight_alert)
                 })
             });
         }
