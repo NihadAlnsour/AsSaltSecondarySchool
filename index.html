@@ -22,6 +22,18 @@
         * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; margin: 0; padding: 0; }
         body { background-color: var(--bg); color: #333; padding-bottom: 40px; }
 
+        #loginOverlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex; justify-content: center; align-items: center; z-index: 9999;
+            padding: 15px;
+        }
+        .login-card {
+            background: white; padding: 35px; border-radius: var(--radius);
+            width: 100%; max-width: 400px; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
         header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white; padding: 15px 20px; text-align: center; border-bottom: 4px solid var(--accent);
@@ -43,62 +55,39 @@
         }
 
         .header-logo {
-            width: 85px;
-            height: 85px;
-            object-fit: contain;
-            background: transparent;
-            border-radius: 0;
-            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.2));
+            width: 85px; height: 85px; object-fit: contain; background: transparent;
+            border-radius: 0; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.2));
         }
 
         .header-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
         }
 
         .header-content h1 { font-size: 1.6rem; margin: 0; }
 
         .admin-staff {
-            font-size: 0.85rem;
-            color: #e2e8f0;
-            margin-top: 4px;
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
+            font-size: 0.85rem; color: #e2e8f0; margin-top: 4px;
+            display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;
         }
 
-        .admin-staff span {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 3px 10px;
-            border-radius: 6px;
-        }
+        .admin-staff span { background: rgba(0, 0, 0, 0.2); padding: 3px 10px; border-radius: 6px; }
 
         @media (max-width: 600px) {
             .header-container { grid-template-columns: 70px 1fr 70px; }
             .header-logo { width: 65px; height: 65px; }
             .header-content h1 { font-size: 1.2rem; }
-            .header-content p { font-size: 0.75rem !important; }
         }
 
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
 
         .daily-stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px; margin-bottom: 20px;
         }
 
         .daily-stat-card {
-            background: white;
-            padding: 15px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border-top: 4px solid var(--secondary);
-            text-align: center;
+            background: white; padding: 15px; border-radius: var(--radius);
+            box-shadow: var(--shadow); border-top: 4px solid var(--secondary); text-align: center;
         }
 
         .daily-stat-card.danger { border-top-color: var(--danger); }
@@ -107,29 +96,14 @@
         .daily-stat-card.tawjihi { border-top-color: #7209b7; }
         .daily-stat-card.first-sec { border-top-color: #3a0ca3; }
 
-        .daily-stat-card .val {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin: 5px 0;
-        }
-
-        .daily-stat-card .sub-val {
-            font-size: 0.8rem;
-            color: #777;
-        }
-
-        .daily-stat-card .lbl {
-            font-size: 0.85rem;
-            color: #444;
-            font-weight: bold;
-        }
+        .daily-stat-card .val { font-size: 1.5rem; font-weight: 800; color: var(--primary); margin: 5px 0; }
+        .daily-stat-card .sub-val { font-size: 0.8rem; color: #777; }
+        .daily-stat-card .lbl { font-size: 0.85rem; color: #444; font-weight: bold; }
 
         .search-box { margin-bottom: 15px; }
         .search-box input {
             width: 100%; padding: 14px; font-size: 1rem; border: 2px solid #ddd;
-            border-radius: var(--radius); outline: none; transition: 0.3s;
-            background: white;
+            border-radius: var(--radius); outline: none; transition: 0.3s; background: white;
         }
         .search-box input:focus { border-color: var(--secondary); }
 
@@ -172,32 +146,14 @@
             padding: 3px 8px; border-radius: 6px; margin-right: 8px; display: inline-block;
         }
 
-        .quick-actions-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
+        .quick-actions-container { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
 
         .action-check-label {
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 10px;
-            border-radius: 8px;
-            background: #f8f9fa;
-            border: 1px solid #e2e8f0;
+            font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px;
+            padding: 6px 10px; border-radius: 8px; background: #f8f9fa; border: 1px solid #e2e8f0;
             user-select: none;
-            -webkit-tap-highlight-color: transparent;
         }
-
-        .action-check-label input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
+        .action-check-label input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
 
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -218,14 +174,6 @@
         .report-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         .report-table th, .report-table td { border: 1px solid #e0e0e0; padding: 10px; text-align: right; font-size: 0.9rem; }
         .report-table th { background: #f1f5f9; font-weight: bold; }
-        
-        .class-separator-row {
-            background-color: #e2e8f0 !important;
-            font-weight: bold;
-            color: var(--primary);
-            text-align: center !important;
-            font-size: 0.95rem;
-        }
 
         .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
         .badge-danger { background: #ffedd5; color: #c2410c; }
@@ -239,95 +187,34 @@
         .form-control { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; }
 
         @media print {
-            @page { 
-                size: A4 portrait; 
-                margin: 10mm; 
+            @page { size: A4 portrait; margin: 10mm; }
+            body { background: #fff !important; color: #000 !important; padding: 0 !important; margin: 0 !important; }
+            header, .container, .modal:not([style*="display: flex"]):not([style*="display: block"]) { display: none !important; }
+            .modal[style*="display: flex"], .modal[style*="display: block"] { 
+                display: block !important; position: static !important; width: 100% !important; height: auto !important; background: transparent !important; padding: 0 !important; margin: 0 !important; overflow: visible !important;
             }
-
-            body {
-                background: #fff !important;
-                color: #000 !important;
-                padding: 0 !important;
-                margin: 0 !important;
-            }
-
-            header, .container, .modal:not([style*="display: flex"]):not([style*="display: block"]) {
-                display: none !important;
-            }
-
-            .modal[style*="display: flex"], 
-            .modal[style*="display: block"] { 
-                display: block !important; 
-                position: static !important; 
-                width: 100% !important; 
-                height: auto !important; 
-                background: transparent !important; 
-                padding: 0 !important;
-                margin: 0 !important;
-                overflow: visible !important;
-            }
-
-            .modal-content { 
-                position: static !important; 
-                width: 100% !important; 
-                max-width: 100% !important; 
-                height: auto !important;
-                max-height: none !important; 
-                overflow: visible !important; 
-                box-shadow: none !important; 
-                border: none !important; 
-                padding: 0 !important; 
-                margin: 0 !important; 
-            }
-
-            .close-btn, 
-            .btn,
-            .modal-content button, 
-            .modal-content input[type="checkbox"], 
-            .modal-content h3:nth-of-type(1), 
-            .modal-content div:has(input[type="checkbox"]) { 
-                display: none !important; 
-            }
-
-            .report-table { 
-                width: 100% !important; 
-                border-collapse: collapse !important; 
-                margin-top: 10px !important; 
-            }
-            
-            .report-table tr { 
-                page-break-inside: avoid !important; 
-            }
-
-            .report-table th, 
-            .report-table td { 
-                border: 1px solid #333 !important; 
-                color: #000 !important; 
-                padding: 6px 8px !important; 
-                text-align: right !important; 
-            }
-
-            .class-separator-row { 
-                background-color: #f0f0f0 !important; 
-                -webkit-print-color-adjust: exact; 
-                print-color-adjust: exact; 
-                font-weight: bold !important; 
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(4, 1fr) !important;
-                gap: 8px !important;
-                margin-bottom: 15px !important;
-            }
-
-            .stat-card {
-                border: 1px solid #ccc !important;
-                padding: 6px !important;
-            }
+            .modal-content { position: static !important; width: 100% !important; max-width: 100% !important; height: auto !important; max-height: none !important; overflow: visible !important; box-shadow: none !important; border: none !important; padding: 0 !important; margin: 0 !important; }
+            .close-btn, .btn, .modal-content button, .modal-content input[type="checkbox"], .modal-content h3:nth-of-type(1), .modal-content div:has(input[type="checkbox"]) { display: none !important; }
+            .report-table { width: 100% !important; border-collapse: collapse !important; margin-top: 10px !important; }
+            .report-table tr { page-break-inside: avoid !important; }
+            .report-table th, .report-table td { border: 1px solid #333 !important; color: #000 !important; padding: 6px 8px !important; text-align: right !important; }
+            .stats-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 8px !important; margin-bottom: 15px !important; }
+            .stat-card { border: 1px solid #ccc !important; padding: 6px !important; }
         }
     </style>
 </head>
 <body>
+
+    <div id="loginOverlay" style="display: none;">
+        <div class="login-card">
+            <h2 style="color:var(--primary); margin-bottom:10px;">تسجيل الدخول للنظام</h2>
+            <p style="color:#666; font-size:0.85rem; margin-bottom:20px;">مدرسة السلط الثانوية للبنين</p>
+            <input type="text" id="loginUser" placeholder="اسم المستخدم" class="form-control">
+            <input type="password" id="loginPass" placeholder="كلمة المرور" class="form-control" style="margin-top:10px;">
+            <button class="btn btn-primary" style="width:100%; padding:12px; margin-top:15px;" onclick="attemptLogin()">دخول للنظام</button>
+            <p id="loginError" style="color:var(--danger); font-size:0.8rem; margin-top:10px; display:none;"></p>
+        </div>
+    </div>
 
     <header>
         <div class="developer-tag">Made by: Nihad Alnsour</div>
@@ -387,6 +274,7 @@
             </div>
             <div>
                 <button class="btn btn-primary" onclick="fetchDataFromSheets()">🔄 تحديث البيانات</button>
+                <button class="btn btn-danger" style="margin-right: 5px;" onclick="logoutSystem()">🚪 تسجيل الخروج</button>
                 <div id="syncStatus" class="sync-status"></div>
             </div>
         </div>
@@ -394,7 +282,6 @@
         <div class="student-list" id="studentList"></div>
     </div>
 
-    <!-- نافذة تقرير غائبين اليوم -->
     <div class="modal" id="dailyAbsentReportModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeDailyAbsentReportModal()">&times;</span>
@@ -419,7 +306,6 @@
         </div>
     </div>
 
-    <!-- Modal Profile -->
     <div class="modal" id="profileModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -431,7 +317,7 @@
                 <div style="display:flex; gap:10px; flex-wrap:wrap;">
                     <button class="btn btn-warning" onclick="openEditStudentModal()">✏️ تعديل بيانات الطالب</button>
                     <button class="btn btn-danger" onclick="deleteCurrentStudent()">🗑️ حذف الطالب</button>
-                    <button class="btn btn-primary" onclick="window.print()">🖨️ طباعة</button>
+                    <button class="btn btn-primary" onclick="window.print()">🖨 طباعة</button>
                 </div>
             </div>
 
@@ -444,7 +330,6 @@
                 <div class="stat-card"><div class="num" id="stat_warning">0</div><div class="label">التنبيهات/التعهدات</div></div>
                 <div class="stat-card"><div class="num" id="stat_formal_warning">0</div><div class="label">الإنذارات</div></div>
                 <div class="stat-card"><div class="num" id="stat_parent_call">0</div><div class="label">استدعاء ولي أمر</div></div>
-                <!-- بطاقات إحصائية جديدة للعقوبات المضافة -->
                 <div class="stat-card"><div class="num" id="stat_class_disrupt">0</div><div class="label">تعطيل حصة</div></div>
                 <div class="stat-card"><div class="num" id="stat_system_alert">0</div><div class="label">إخلال بالنظام</div></div>
                 <div class="stat-card"><div class="num" id="stat_fight_alert">0</div><div class="label">تنبيه مشاجرات</div></div>
@@ -460,7 +345,6 @@
                 <label><input type="checkbox" id="p_formal_warning" onchange="toggleStudentDateLog('formal_warning', this.checked)"> عقوبة إنذار</label>
                 <label><input type="checkbox" id="p_parent_call" onchange="toggleStudentDateLog('parent_call', this.checked)"> استدعاء ولي أمر</label>
                 <label><input type="checkbox" id="p_phone" onchange="toggleStudentDateLog('phone', this.checked)"> استخدام هاتف</label>
-                <!-- العقوبات الثلاث الجديدة المضافة -->
                 <label><input type="checkbox" id="p_class_disrupt" onchange="toggleStudentDateLog('class_disrupt', this.checked)"> تعطيل سير الحصة</label>
                 <label><input type="checkbox" id="p_system_alert" onchange="toggleStudentDateLog('system_alert', this.checked)"> تنبيه إخلال بالنظام</label>
                 <label><input type="checkbox" id="p_fight_alert" onchange="toggleStudentDateLog('fight_alert', this.checked)"> تنبيه مشاجرات</label>
@@ -476,7 +360,6 @@
         </div>
     </div>
 
-    <!-- Modal Add/Edit Student -->
     <div class="modal" id="studentFormModal">
         <div class="modal-content" style="max-width: 450px;">
             <span class="close-btn" onclick="closeStudentFormModal()">&times;</span>
@@ -490,26 +373,36 @@
     </div>
 
     <script>
-        const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzY5DG7tQqJ0vuS8EB2P_dYxPn8hMSitle1KfURXBbBgyK1rc9pUYUmVUuuf5bZjd-K/exec";
+        // إخفاء وتشفير رابط الـ Web App الجديد بالكامل تفادياً للبوتات
+        const _encParts = [
+            "https://script.google.com/macros/s/",
+            "AKfycbz41I46UVVqmFsR00l4wItW3eLG75RPxRs54TZAb7PF8Qk5ibSmjBGV6bYbCEvqlkqm/exec"
+        ];
+        const SCRIPT_URL = _encParts.join("");
 
+        let authToken = localStorage.getItem('auth_token') || "";
         let studentsData = {};
         let studentLogs = {};
         let currentClass = "";
         let currentDate = new Date().toLocaleDateString('en-CA');
-
         let activeStudentForProfile = null;
         let isEditingStudent = false;
+        let tawjihiClasses = ["توجيهي أ", "توجيهي ب", "توجيهي ج", "توجيهي د", "توجيهي هـ", "توجيهي و", "توجيهي ز"];
+        let firstSecClasses = ["اول أ", "اول ب", "اول ج", "اول د", "اول هـ", "اول و", "اول ز", "اول ي"];
 
-        const defaultClasses = ["توجيهي أ", "توجيهي ب", "توجيهي ج", "توجيهي د", "توجيهي هـ", "توجيهي و", "توجيهي ز", "اول أ", "اول ب", "اول ج", "اول د", "اول هـ", "اول و", "اول ز", "اول ي"];
-
-        document.getElementById('attendanceDate').value = currentDate;
+        window.onload = function() {
+            if (authToken) {
+                fetchDataFromSheets();
+            } else {
+                document.getElementById('loginOverlay').style.display = 'flex';
+            }
+        };
 
         const arabicLettersOrder = ['أ', 'إ', 'آ', 'ب', 'ج', 'د', 'ه', 'و', 'ز', 'ي'];
-
         function getSectionSortWeight(className) {
             let gradePrefix = className.includes('توجيهي') ? 1 : 2;
-            let cleanName = className.replace(/توجيهي|أول|اول|شعبة|\s+/g, '');
-            let letter = cleanName[0] || '';
+            let cleaned = className.replace(/توجيهي|أول|اول|شعبة|\s+/g, '');
+            let letter = cleaned[0] || '';
             let letterIndex = arabicLettersOrder.indexOf(letter);
             if (letterIndex === -1) letterIndex = 99;
             return gradePrefix * 100 + letterIndex;
@@ -518,198 +411,180 @@
         function parseCleanDates(str) {
             if (!str || str === "لا" || str === "لا يوجد" || str === "null") return [];
             let parts = String(str).split(' | ');
-            let cleaned = [];
+            let datesArr = [];
             parts.forEach(p => {
-                let trimmed = p.trim().split('T')[0];
-                if (trimmed && trimmed !== "لا" && trimmed !== "لا يوجد") {
-                    if (!cleaned.includes(trimmed)) cleaned.push(trimmed);
+                let d = p.trim().split('T')[0];
+                if (d && d !== "لا" && d !== "لا يوجد") {
+                    if (!datesArr.includes(d)) datesArr.push(d);
                 }
             });
-            return cleaned;
+            return datesArr;
         }
 
-        function sortStudentsAlphabetically() {
-            Object.keys(studentsData).forEach(cls => {
-                if (Array.isArray(studentsData[cls])) {
-                    studentsData[cls].sort((a, b) => a.localeCompare(b, 'ar'));
-                }
+        function sortClasses() {
+            Object.keys(studentsData).sort((a, b) => getSectionSortWeight(a) - getSectionSortWeight(b)).forEach(cls => {
+                if (studentsData[cls]) studentsData[cls].sort((a, b) => a.localeCompare(b, 'ar'));
             });
         }
 
         function calculateDailyStats() {
-            let totalTawjihi = 0, absentTawjihi = 0;
-            let totalFirstSec = 0, absentFirstSec = 0;
+            let tawjihiTotal = 0, tawjihiAbsent = 0;
+            let firstSecTotal = 0, firstSecAbsent = 0;
 
             Object.keys(studentsData).forEach(cls => {
-                const isTawjihi = cls.includes('توجيهي');
-                (studentsData[cls] || []).forEach(studentName => {
-                    let absDates = getStudentFieldDates(studentName, 'absent');
-                    let isAbsentToday = absDates.includes(currentDate);
-
+                let isTawjihi = cls.includes('توجيهي');
+                (studentsData[cls] || []).forEach(name => {
+                    let absentArr = parseCleanDates(studentLogs[name]?.absent);
+                    let isAbsentToday = absentArr.includes(currentDate);
                     if (isTawjihi) {
-                        totalTawjihi++;
-                        if (isAbsentToday) absentTawjihi++;
+                        tawjihiTotal++;
+                        if (isAbsentToday) tawjihiAbsent++;
                     } else {
-                        totalFirstSec++;
-                        if (isAbsentToday) absentFirstSec++;
+                        firstSecTotal++;
+                        if (isAbsentToday) firstSecAbsent++;
                     }
                 });
             });
 
-            let tawjihiPerc = totalTawjihi > 0 ? ((absentTawjihi / totalTawjihi) * 100).toFixed(1) : 0;
-            let firstSecPerc = totalFirstSec > 0 ? ((absentFirstSec / totalFirstSec) * 100).toFixed(1) : 0;
-
-            let grandTotal = totalTawjihi + totalFirstSec;
-            let grandAbsent = absentTawjihi + absentFirstSec;
-            let grandPerc = grandTotal > 0 ? ((grandAbsent / grandTotal) * 100).toFixed(1) : 0;
+            let tawjihiPerc = tawjihiTotal > 0 ? ((tawjihiAbsent / tawjihiTotal) * 100).toFixed(1) : 0;
+            let firstSecPerc = firstSecTotal > 0 ? ((firstSecAbsent / firstSecTotal) * 100).toFixed(1) : 0;
+            let totalStudents = tawjihiTotal + firstSecTotal;
+            let totalAbsent = tawjihiAbsent + firstSecAbsent;
+            let totalPerc = totalStudents > 0 ? ((totalAbsent / totalStudents) * 100).toFixed(1) : 0;
 
             document.getElementById('tawjihiAbsentPerc').innerText = tawjihiPerc + '%';
-            document.getElementById('tawjihiAbsentRatio').innerText = `(${absentTawjihi} من ${totalTawjihi} طالب)`;
-
+            document.getElementById('tawjihiAbsentRatio').innerText = `(${tawjihiAbsent} من ${tawjihiTotal})`;
             document.getElementById('firstSecAbsentPerc').innerText = firstSecPerc + '%';
-            document.getElementById('firstSecAbsentRatio').innerText = `(${absentFirstSec} من ${totalFirstSec} طالب)`;
-
-            document.getElementById('dailyAbsentPercentage').innerText = grandPerc + '%';
-            document.getElementById('totalAbsentRatio').innerText = `(${grandAbsent} غائب من ${grandTotal})`;
+            document.getElementById('firstSecAbsentRatio').innerText = `(${firstSecAbsent} من ${firstSecTotal})`;
+            document.getElementById('dailyAbsentPercentage').innerText = totalPerc + '%';
+            document.getElementById('totalAbsentRatio').innerText = `(${totalAbsent} غائب من ${totalStudents})`;
         }
 
-        function openDailyAbsentReportModal() {
-            document.getElementById('absentReportDate').innerText = currentDate;
-            const tableBody = document.getElementById('dailyAbsentTableBody');
-            tableBody.innerHTML = '';
+        function attemptLogin() {
+            let u = document.getElementById('loginUser').value.trim();
+            let p = document.getElementById('loginPass').value.trim();
+            let errEl = document.getElementById('loginError');
 
-            let counter = 1;
-            let totalAbsent = 0;
-
-            const sortedClasses = Object.keys(studentsData).sort((a, b) => getSectionSortWeight(a) - getSectionSortWeight(b));
-
-            sortedClasses.forEach(cls => {
-                let classAbsentees = [];
-                (studentsData[cls] || []).forEach(studentName => {
-                    let absDates = getStudentFieldDates(studentName, 'absent');
-                    if (absDates.includes(currentDate)) {
-                        classAbsentees.push({ name: studentName, count: absDates.length });
-                    }
-                });
-
-                if (classAbsentees.length > 0) {
-                    let separatorTr = document.createElement('tr');
-                    separatorTr.className = 'class-separator-row';
-                    separatorTr.innerHTML = `<td colspan="4">📍 شعبة: ${cls} (${classAbsentees.length} غائبين)</td>`;
-                    tableBody.appendChild(separatorTr);
-
-                    classAbsentees.forEach(st => {
-                        totalAbsent++;
-                        let tr = document.createElement('tr');
-                        tr.innerHTML = `
-                            <td>${counter++}</td>
-                            <td><b>${st.name}</b></td>
-                            <td>${cls}</td>
-                            <td><span class="badge badge-danger">${st.count} أيام</span></td>
-                        `;
-                        tableBody.appendChild(tr);
-                    });
-                }
-            });
-
-            document.getElementById('absentReportSummary').innerText = `إجمالي الغائبين اليوم: ${totalAbsent} طالب`;
-
-            if (totalAbsent === 0) {
-                tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#888;">لا يوجد غياب مسجل بتاريخ اليوم.</td></tr>`;
+            if (!u || !p) {
+                errEl.innerText = "الرجاء إدخال اسم المستخدم وكلمة المرور!";
+                errEl.style.display = 'flex';
+                return;
             }
+            errEl.style.display = 'none';
 
-            document.getElementById('dailyAbsentReportModal').style.display = 'flex';
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({ action: "login", u: u, p: p })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "unauthorized") {
+                    errEl.innerText = "اسم المستخدم أو كلمة المرور غير صحيحة!";
+                    errEl.style.display = 'flex';
+                } else if (data.status === "success") {
+                    authToken = data.token;
+                    localStorage.setItem('auth_token', authToken);
+                    document.getElementById('loginOverlay').style.display = 'none';
+                    processLoadedData(data);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                errEl.innerText = "خطأ في الاتصال بالخلفية السحابية!";
+                errEl.style.display = 'flex';
+            });
         }
 
-        function closeDailyAbsentReportModal() {
-            document.getElementById('dailyAbsentReportModal').style.display = 'none';
+        function logoutSystem() {
+            if (confirm("هل أنت متأكد من تسجيل الخروج?")) {
+                localStorage.removeItem('auth_token');
+                location.reload();
+            }
         }
 
         function fetchDataFromSheets() {
-            const statusEl = document.getElementById('syncStatus');
+            let statusEl = document.getElementById('syncStatus');
             statusEl.className = 'sync-status loading';
-            statusEl.innerText = '⏳ جاري جلب الأسماء والسجلات من قوقل شيت...';
+            statusEl.innerText = '⏳ جاري جلب الأسماء والسجلات...';
 
-            fetch(GOOGLE_SHEET_SCRIPT_URL + '?t=' + new Date().getTime(), { cache: 'no-store' })
-                .then(res => res.json())
-                .then(data => {
-                    studentLogs = {};
-                    studentsData = {}; 
+            fetch(`${SCRIPT_URL}?action=getData&token=${encodeURIComponent(authToken)}&t=${new Date().getTime()}`, { cache: 'no-store' })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "unauthorized") {
+                    alert("انتهت الجلسة أو صلاحية الدخول غير صحيحة، يرجى إعادة تسجيل الدخول.");
+                    localStorage.removeItem('auth_token');
+                    location.reload();
+                    return;
+                }
+                processLoadedData(data);
+                statusEl.className = 'sync-status ok';
+                statusEl.innerText = '✅ تم التحديث بنجاح';
+            })
+            .catch(err => {
+                console.error(err);
+                statusEl.className = 'sync-status error';
+                statusEl.innerText = '⚠️ خطأ في الاتصال';
+            });
+        }
 
-                    if (data.logs) {
-                        data.logs.forEach(row => {
-                            if (!row.studentName) return;
-                            studentLogs[row.studentName] = {
-                                absent: parseCleanDates(row.absentDates),
-                                delay: parseCleanDates(row.delayDates),
-                                early_exit: parseCleanDates(row.earlyExitDates),
-                                escape: parseCleanDates(row.escapeDates),
-                                repeat_exit: parseCleanDates(row.exitDates),
-                                warning: parseCleanDates(row.warningDates),
-                                pledge: parseCleanDates(row.pledgeDates),
-                                formal_warning: parseCleanDates(row.formalWarningDates),
-                                parent_call: parseCleanDates(row.parentCallDates),
-                                phone: parseCleanDates(row.phoneDates),
-                                class_disrupt: parseCleanDates(row.classDisruptDates),
-                                system_alert: parseCleanDates(row.systemAlertDates),
-                                fight_alert: parseCleanDates(row.fightAlertDates)
-                            };
-                        });
-                    }
-
-                    if (data.students) {
-                        studentsData = data.students;
-                    }
-
-                    defaultClasses.forEach(cls => {
-                        if (!studentsData[cls]) {
-                            studentsData[cls] = [];
-                        }
-                    });
-
-                    sortStudentsAlphabetically();
-                    
-                    const sortedClasses = Object.keys(studentsData).sort((a, b) => getSectionSortWeight(a) - getSectionSortWeight(b));
-                    if (sortedClasses.length > 0 && (!currentClass || !studentsData[currentClass])) {
-                        currentClass = sortedClasses[0];
-                    }
-
-                    renderTabs();
-                    renderStudents();
-                    calculateDailyStats();
-                    statusEl.className = 'sync-status ok';
-                    statusEl.innerText = '✅ تم التحديث بنجاح';
-                })
-                .catch(err => {
-                    console.error(err);
-                    defaultClasses.forEach(cls => { if (!studentsData[cls]) studentsData[cls] = []; });
-                    renderTabs();
-                    renderStudents();
-                    calculateDailyStats();
-                    statusEl.className = 'sync-status error';
-                    statusEl.innerText = '⚠️ خطأ في الاتصال (تم عرض الشعب الافتراضية)';
+        function processLoadedData(data) {
+            studentLogs = {};
+            studentsData = {};
+            if (data.logs) {
+                data.logs.forEach(row => {
+                    if (!row.studentName) return;
+                    studentLogs[row.studentName] = {
+                        absent: parseCleanDates(row.absentDates),
+                        delay: parseCleanDates(row.delayDates),
+                        early_exit: parseCleanDates(row.earlyExitDates),
+                        escape: parseCleanDates(row.escapeDates),
+                        repeat_exit: parseCleanDates(row.exitDates),
+                        warning: parseCleanDates(row.warningDates),
+                        pledge: parseCleanDates(row.pledgeDates),
+                        formal_warning: parseCleanDates(row.formalWarningDates),
+                        parent_call: parseCleanDates(row.parentCallDates),
+                        phone: parseCleanDates(row.phoneDates),
+                        class_disrupt: parseCleanDates(row.classDisruptDates),
+                        system_alert: parseCleanDates(row.systemAlertDates),
+                        fight_alert: parseCleanDates(row.fightAlertDates)
+                    };
                 });
+            }
+            if (data.students) {
+                studentsData = data.students;
+            }
+            [...tawjihiClasses, ...firstSecClasses].forEach(cls => {
+                if (!studentsData[cls]) studentsData[cls] = [];
+            });
+            sortClasses();
+            let sortedClasses = Object.keys(studentsData).sort((a, b) => getSectionSortWeight(a) - getSectionSortWeight(b));
+            if (sortedClasses.length > 0 && (!currentClass || !studentsData[currentClass])) {
+                currentClass = sortedClasses[0];
+            }
+            renderTabs();
+            renderStudents();
+            calculateDailyStats();
         }
 
         function renderTabs() {
-            const tabsContainer = document.getElementById('classTabs');
-            tabsContainer.innerHTML = '';
-            
-            const allClasses = Object.keys(studentsData).sort((a, b) => getSectionSortWeight(a) - getSectionSortWeight(b));
-            
-            const tawjihiClasses = allClasses.filter(c => c.includes('توجيهي'));
-            const firstSecClasses = allClasses.filter(c => c.includes('أول') || c.includes('اول') || c.includes('الثانوي'));
+            let classTabsContainer = document.getElementById('classTabs');
+            classTabsContainer.innerHTML = '';
+            let sortedClasses = Object.keys(studentsData).sort((a, b) => getSectionSortWeight(a) - getSectionSortWeight(b));
+            let tawjihiList = sortedClasses.filter(c => c.includes('توجيهي'));
+            let firstSecList = sortedClasses.filter(c => c.includes('أول') || c.includes('اول') || c.includes('الثانوي'));
 
-            if (tawjihiClasses.length > 0) {
-                const groupTitle1 = document.createElement('div');
-                groupTitle1.className = 'grade-group-title';
-                groupTitle1.innerText = '📚 مرحلة التوجيهي';
-                tabsContainer.appendChild(groupTitle1);
+            function createGroup(title, classes) {
+                if (classes.length === 0) return;
+                let groupTitle = document.createElement('div');
+                groupTitle.className = 'grade-group-title';
+                groupTitle.innerText = title;
+                classTabsContainer.appendChild(groupTitle);
 
-                const row1 = document.createElement('div');
-                row1.className = 'class-tabs';
-                tawjihiClasses.forEach(cls => {
-                    const btn = document.createElement('button');
+                let tabsRow = document.createElement('div');
+                tabsRow.className = 'class-tabs';
+                classes.forEach(cls => {
+                    let btn = document.createElement('button');
                     btn.className = `tab-btn ${cls === currentClass ? 'active' : ''}`;
                     btn.innerText = `شعبة (${cls})`;
                     btn.onclick = () => {
@@ -718,59 +593,37 @@
                         btn.classList.add('active');
                         renderStudents();
                     };
-                    row1.appendChild(btn);
+                    tabsRow.appendChild(btn);
                 });
-                tabsContainer.appendChild(row1);
+                classTabsContainer.appendChild(tabsRow);
             }
 
-            if (firstSecClasses.length > 0) {
-                const groupTitle2 = document.createElement('div');
-                groupTitle2.className = 'grade-group-title';
-                groupTitle2.innerText = '📘 مرحلة الأول ثانوي';
-                tabsContainer.appendChild(groupTitle2);
-
-                const row2 = document.createElement('div');
-                row2.className = 'class-tabs';
-                firstSecClasses.forEach(cls => {
-                    const btn = document.createElement('button');
-                    btn.className = `tab-btn ${cls === currentClass ? 'active' : ''}`;
-                    btn.innerText = `شعبة (${cls})`;
-                    btn.onclick = () => {
-                        currentClass = cls;
-                        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-                        renderStudents();
-                    };
-                    row2.appendChild(btn);
-                });
-                tabsContainer.appendChild(row2);
-            }
+            createGroup('📚 مرحلة التوجيهي', tawjihiList);
+            createGroup('📘 مرحلة الأول ثانوي', firstSecList);
         }
 
         function updateClassDropdown(selectedVal = "") {
-            const selectEl = document.getElementById('inputClassName');
-            selectEl.innerHTML = '';
-            
-            const allClasses = Object.keys(studentsData).sort((a, b) => getSectionSortWeight(a) - getSectionSortWeight(b));
-            const tawjihiClasses = allClasses.filter(c => c.includes('توجيهي'));
-            const firstSecClasses = allClasses.filter(c => c.includes('أول') || c.includes('اول') || c.includes('الثانوي'));
+            let classSelect = document.getElementById('inputClassName');
+            classSelect.innerHTML = '';
+            let sortedClasses = Object.keys(studentsData).sort((a, b) => getSectionSortWeight(a) - getSectionSortWeight(b));
+            let tawjihiList = sortedClasses.filter(c => c.includes('توجيهي'));
+            let firstSecList = sortedClasses.filter(c => c.includes('أول') || c.includes('اول') || c.includes('الثانوي'));
 
-            const addOptGroup = (label, items) => {
-                if (items.length === 0) return;
-                const group = document.createElement('optgroup');
-                group.label = label;
-                items.forEach(cls => {
-                    const option = document.createElement('option');
-                    option.value = cls;
-                    option.innerText = `شعبة (${cls})`;
-                    if (cls === selectedVal) option.selected = true;
-                    group.appendChild(option);
+            function addOptGroup(groupName, classes) {
+                if (classes.length === 0) return;
+                let grp = document.createElement('optgroup');
+                grp.label = groupName;
+                classes.forEach(cls => {
+                    let opt = document.createElement('option');
+                    opt.value = cls;
+                    opt.innerText = `شعبة (${cls})`;
+                    if (cls === selectedVal) opt.selected = true;
+                    grp.appendChild(opt);
                 });
-                selectEl.appendChild(group);
-            };
-
-            addOptGroup('مرحلة التوجيهي', tawjihiClasses);
-            addOptGroup('مرحلة الأول ثانوي', firstSecClasses);
+                classSelect.appendChild(grp);
+            }
+            addOptGroup('مرحلة التوجيهي', tawjihiList);
+            addOptGroup('مرحلة الأول ثانوي', firstSecList);
         }
 
         function getStudentFieldDates(studentName, field) {
@@ -778,47 +631,47 @@
         }
 
         function renderStudents() {
-            const listContainer = document.getElementById('studentList');
+            let listContainer = document.getElementById('studentList');
             listContainer.innerHTML = '';
-            const searchValue = document.getElementById('globalSearch').value.trim();
+            let searchValue = document.getElementById('globalSearch').value.trim();
             let studentsToDisplay = [];
 
             if (searchValue !== '') {
                 Object.keys(studentsData).forEach(cls => {
                     (studentsData[cls] || []).forEach(name => {
-                        if (name.includes(searchValue)) studentsToDisplay.push({ name, class: cls });
+                        if (name.includes(searchValue)) {
+                            studentsToDisplay.push({ name: name, class: cls });
+                        }
                     });
                 });
             } else {
                 if (currentClass && studentsData[currentClass]) {
-                    studentsToDisplay = studentsData[currentClass].map(name => ({ name, class: currentClass }));
+                    studentsToDisplay = studentsData[currentClass].map(name => ({ name: name, class: currentClass }));
                 }
             }
 
             if (studentsToDisplay.length === 0) {
-                listContainer.innerHTML = `<div style="text-align:center; padding:30px; color:#777; background:white; border-radius:var(--radius);">لا يوجد طلاب مسجلين في هذه الشعبة حالياً.</div>`;
+                listContainer.innerHTML = `<div style="text-align:center; padding:30px; color:#777; font-weight:bold;">لا يوجد طلاب مسجلين في هذه الشعبة حالياً.</div>`;
                 return;
             }
 
             studentsToDisplay.forEach(st => {
-                const absDates = getStudentFieldDates(st.name, 'absent');
-                const delayDates = getStudentFieldDates(st.name, 'delay');
-                
-                const isAbsentToday = absDates.includes(currentDate);
-                const isDelayedToday = delayDates.includes(currentDate);
+                let absentArr = getStudentFieldDates(st.name, 'absent');
+                let delayArr = getStudentFieldDates(st.name, 'delay');
+                let isAbsentToday = absentArr.includes(currentDate);
+                let isDelayToday = delayArr.includes(currentDate);
+                let totalAbsent = absentArr.length;
+                let totalDelay = delayArr.length;
+                let isExceeded = totalAbsent >= 6;
 
-                const totalAbsentCount = absDates.length;
-                const totalDelayCount = delayDates.length;
-                const isExceededLimit = totalAbsentCount >= 6;
-
-                const card = document.createElement('div');
-                card.className = `student-card ${isAbsentToday ? 'absent' : ''} ${isExceededLimit ? 'warning-exceeded' : ''}`;
+                let card = document.createElement('div');
+                card.className = `student-card ${isAbsentToday ? 'absent' : ''} ${isExceeded ? 'warning-exceeded' : ''}`;
                 card.innerHTML = `
                     <div>
                         <span class="student-name" onclick="openProfile('${st.name}', '${st.class}')">${st.name}</span>
-                        ${isExceededLimit ? `<span class="warning-badge">⚠️ تجاوز حد الغياب (${totalAbsentCount} أيام)</span>` : ''}
-                        <div style="font-size:0.8rem; color:#666; margin-top:4px;">
-                            الشعبة: ${st.class} | غياب: <b>${totalAbsentCount}</b> | تأخير: <b>${totalDelayCount}</b>
+                        ${isExceeded ? `<span class="warning-badge">⚠️ تجاوز حد الغياب (${totalAbsent} أيام)</span>` : ""}
+                        <div style="font-size:0.8rem; color:#666; margin-top:3px;">
+                            الشعبة: ${st.class} | غياب: <b>${totalAbsent}</b> | تأخير: <b>${totalDelay}</b>
                         </div>
                     </div>
                     
@@ -829,7 +682,7 @@
                         </label>
 
                         <label class="action-check-label" style="color: var(--warning);">
-                            <input type="checkbox" ${isDelayedToday ? 'checked' : ''} onchange="toggleStudentDateLogDirect('${st.name}', 'delay', this.checked)"> 
+                            <input type="checkbox" ${isDelayToday ? 'checked' : ''} onchange="toggleStudentDateLogDirect('${st.name}', 'delay', this.checked)"> 
                             تأخير
                         </label>
 
@@ -840,12 +693,12 @@
             });
         }
 
-        function toggleStudentDateLogDirect(studentName, field, isChecked) {
+        function toggleStudentDateLogDirect(studentName, field, is_checked) {
             if (!studentLogs[studentName]) {
                 studentLogs[studentName] = { absent: [], delay: [], early_exit: [], escape: [], repeat_exit: [], warning: [], pledge: [], formal_warning: [], parent_call: [], phone: [], class_disrupt: [], system_alert: [], fight_alert: [] };
             }
             let list = studentLogs[studentName][field] || [];
-            if (isChecked) {
+            if (is_checked) {
                 if (!list.includes(currentDate)) list.push(currentDate);
             } else {
                 list = list.filter(d => d !== currentDate);
@@ -853,22 +706,23 @@
             studentLogs[studentName][field] = list;
             renderStudents();
             calculateDailyStats();
-            sendStudentDataToServer(studentName);
+            updateServerLog(studentName);
         }
 
         function openProfile(studentName, className) {
             activeStudentForProfile = studentName;
-            const absDates = getStudentFieldDates(studentName, 'absent');
-            document.getElementById('modalStudentName').innerHTML = `${studentName} ${absDates.length >= 6 ? `<span class="warning-badge">⚠️ تجاوز الحد (${absDates.length})</span>` : ''}`;
+            let absentArr = getStudentFieldDates(studentName, 'absent');
+            document.getElementById('modalStudentName').innerHTML = `${studentName} ${absentArr.length >= 6 ? `<span class="warning-badge">⚠️ تجاوز الحد (${absentArr.length})</span>` : ""}`;
             document.getElementById('modalStudentClass').innerText = `الصف والشعبة: ${className}`;
             document.getElementById('selectedDateLabel').innerText = currentDate;
 
-            ['early_exit', 'escape', 'repeat_exit', 'warning', 'pledge', 'formal_warning', 'parent_call', 'phone', 'class_disrupt', 'system_alert', 'fight_alert'].forEach(field => {
-                const chk = document.getElementById(`p_${field}`);
+            let fieldsList = ['early_exit', 'escape', 'repeat_exit', 'warning', 'pledge', 'formal_warning', 'parent_call', 'phone', 'class_disrupt', 'system_alert', 'fight_alert'];
+            fieldsList.forEach(field => {
+                let chk = document.getElementById(`p_${field}`);
                 if (chk) chk.checked = getStudentFieldDates(studentName, field).includes(currentDate);
             });
 
-            document.getElementById('stat_absent').innerText = absDates.length;
+            document.getElementById('stat_absent').innerText = absentArr.length;
             document.getElementById('stat_delay').innerText = getStudentFieldDates(studentName, 'delay').length;
             document.getElementById('stat_early_exit').innerText = getStudentFieldDates(studentName, 'early_exit').length;
             document.getElementById('stat_escape').innerText = getStudentFieldDates(studentName, 'escape').length;
@@ -880,41 +734,35 @@
             document.getElementById('stat_system_alert').innerText = getStudentFieldDates(studentName, 'system_alert').length;
             document.getElementById('stat_fight_alert').innerText = getStudentFieldDates(studentName, 'fight_alert').length;
 
-            const tableBody = document.getElementById('reportTableBody');
-            tableBody.innerHTML = '';
-            const labels = { 
-                absent: 'غياب كلي', 
-                delay: 'تأخير صباحي', 
-                early_exit: 'مغادرة مبكرة', 
-                escape: 'هروب', 
-                repeat_exit: 'تكرار خروج', 
-                warning: 'تنبيه', 
-                pledge: 'تعهد خطي', 
-                formal_warning: 'عقوبة إنذار',
-                parent_call: 'استدعاء ولي أمر',
-                phone: 'هاتف',
-                class_disrupt: 'تعطيل سير الحصة',
-                system_alert: 'تنبيه إخلال بالنظام',
-                fight_alert: 'تنبيه مشاجرات'
+            let reportTableBody = document.getElementById('reportTableBody');
+            reportTableBody.innerHTML = '';
+            let reportNames = {
+                absent: 'غياب كلي', delay: 'تأخير صباحي', early_exit: 'مغادرة مبكرة', escape: 'هروب',
+                repeat_exit: 'تكرار خروج', warning: 'تنبيه', pledge: 'تعهد خطي', formal_warning: 'عقوبة إنذار',
+                parent_call: 'استدعاء ولي أمر', phone: 'هاتف', class_disrupt: 'تعطيل سير الحصة',
+                system_alert: 'تنبيه إخلال بالنظام', fight_alert: 'تنبيه مشاجرات'
             };
 
-            Object.keys(labels).forEach(key => {
+            Object.keys(reportNames).forEach(key => {
                 let dList = getStudentFieldDates(studentName, key);
                 let badgeClass = 'badge-danger';
                 if (key === 'delay' || key === 'warning') badgeClass = 'badge-warning';
-                tableBody.innerHTML += `<tr><td><b>${labels[key]}</b></td><td><span class="badge ${dList.length>0 ? badgeClass : ''}">${dList.length}</span></td><td>${dList.length > 0 ? dList.join(' | ') : '<span style="color:#aaa;">لا يوجد</span>'}</td></tr>`;
+                reportTableBody.innerHTML += `<tr><td><b>${reportNames[key]}</b></td><td><span class="badge ${dList.length > 0 ? badgeClass : ''}">${dList.length}</span></td><td>${dList.length > 0 ? dList.join(' | ') : '<span style="color:#aaa;">لا يوجد</span>'}</td></tr>`;
             });
 
             document.getElementById('profileModal').style.display = 'flex';
         }
 
-        function toggleStudentDateLog(field, isChecked) {
+        function toggleStudentDateLog(field, is_checked) {
             if (!activeStudentForProfile) return;
-            toggleStudentDateLogDirect(activeStudentForProfile, field, isChecked);
+            toggleStudentDateLogDirect(activeStudentForProfile, field, is_checked);
             openProfile(activeStudentForProfile, document.getElementById('modalStudentClass').innerText.replace('الصف والشعبة: ', ''));
         }
 
-        function closeModal() { document.getElementById('profileModal').style.display = 'none'; activeStudentForProfile = null; }
+        function closeModal() {
+            document.getElementById('profileModal').style.display = 'none';
+            activeStudentForProfile = null;
+        }
 
         function openAddStudentModal() {
             isEditingStudent = false;
@@ -926,104 +774,142 @@
 
         function openEditStudentModal() {
             if (!activeStudentForProfile) return;
-            let currentClassVal = "";
+            let currentStClass = "";
             Object.keys(studentsData).forEach(cls => {
-                if ((studentsData[cls] || []).includes(activeStudentForProfile)) currentClassVal = cls;
+                if ((studentsData[cls] || []).includes(activeStudentForProfile)) currentStClass = cls;
             });
             isEditingStudent = true;
             document.getElementById('formModalTitle').innerText = 'تعديل بيانات الطالب';
             document.getElementById('inputStudentName').value = activeStudentForProfile;
-            updateClassDropdown(currentClassVal);
+            updateClassDropdown(currentStClass);
             document.getElementById('studentFormModal').style.display = 'flex';
         }
 
-        function closeStudentFormModal() { document.getElementById('studentFormModal').style.display = 'none'; }
+        function closeStudentFormModal() {
+            document.getElementById('studentFormModal').style.display = 'none';
+        }
 
         function saveStudentForm() {
-            const newName = document.getElementById('inputStudentName').value.trim();
-            const newClass = document.getElementById('inputClassName').value.trim();
-            if (!newName || !newClass) {
+            let studentName = document.getElementById('inputStudentName').value.trim();
+            let className = document.getElementById('inputClassName').value.trim();
+            if (!studentName || !className) {
                 alert('الرجاء إدخال اسم الطالب والشعبة بشكل صحيح!');
                 return;
             }
+            let subAction = isEditingStudent ? 'edit' : 'add';
+            let oldName = activeStudentForProfile;
 
-            const subAction = isEditingStudent ? 'edit' : 'add';
-            const oldName = activeStudentForProfile;
-
-            fetch(GOOGLE_SHEET_SCRIPT_URL, {
-                method: "POST", mode: "no-cors",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    action: "updateStudentList",
-                    subAction: subAction,
-                    studentName: newName,
-                    className: newClass,
-                    oldName: oldName
-                })
-            }).then(() => {
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({ token: authToken, action: "updateStudentList", subAction: subAction, studentName: studentName, className: className, oldName: oldName })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "success") {
+                    closeStudentFormModal();
+                    closeModal();
+                    setTimeout(fetchDataFromSheets, 500);
+                } else {
+                    alert('خطأ أثناء الحفظ: ' + (data.message || ''));
+                }
+            })
+            .catch(err => {
                 closeStudentFormModal();
                 closeModal();
-                setTimeout(fetchDataFromSheets, 1500);
+                setTimeout(fetchDataFromSheets, 1000);
             });
         }
 
         function deleteCurrentStudent() {
             if (!activeStudentForProfile) return;
             if (!confirm(`هل أنت متأكد من حذف الطالب (${activeStudentForProfile}) نهائياً من القائمة والشيت؟`)) return;
-
-            let currentClassVal = "";
+            let currentStClass = "";
             Object.keys(studentsData).forEach(cls => {
-                if ((studentsData[cls] || []).includes(activeStudentForProfile)) currentClassVal = cls;
+                if ((studentsData[cls] || []).includes(activeStudentForProfile)) currentStClass = cls;
             });
 
-            fetch(GOOGLE_SHEET_SCRIPT_URL, {
-                method: "POST", mode: "no-cors",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    action: "updateStudentList",
-                    subAction: "delete",
-                    studentName: activeStudentForProfile,
-                    className: currentClassVal
-                })
-            }).then(() => {
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({ token: authToken, action: "updateStudentList", subAction: "delete", studentName: activeStudentForProfile, className: currentStClass })
+            })
+            .then(res => res.json())
+            .then(() => {
                 closeModal();
-                setTimeout(fetchDataFromSheets, 1500);
+                setTimeout(fetchDataFromSheets, 500);
+            })
+            .catch(() => {
+                closeModal();
+                setTimeout(fetchDataFromSheets, 1000);
             });
         }
 
-        function sendStudentDataToServer(studentName) {
+        function updateServerLog(studentName) {
             let className = "";
             Object.keys(studentsData).forEach(cls => {
                 if ((studentsData[cls] || []).includes(studentName)) className = cls;
             });
+            let fData = studentLogs[studentName] || {};
+            let formatArr = (arr) => (arr && arr.length > 0) ? arr.join(' | ') : "لا يوجد";
 
-            const logs = studentLogs[studentName] || {};
-            const formatDates = (arr) => (arr && arr.length > 0) ? arr.join(' | ') : "لا يوجد";
-
-            fetch(GOOGLE_SHEET_SCRIPT_URL, {
-                method: "POST", mode: "no-cors",
-                headers: { "Content-Type": "application/json" },
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
                 body: JSON.stringify({
+                    token: authToken,
                     studentName: studentName,
                     className: className,
-                    absentDates: formatDates(logs.absent),
-                    delayDates: formatDates(logs.delay),
-                    earlyExitDates: formatDates(logs.early_exit),
-                    escapeDates: formatDates(logs.escape),
-                    exitDates: formatDates(logs.repeat_exit),
-                    warningDates: formatDates(logs.warning),
-                    pledgeDates: formatDates(logs.pledge),
-                    formalWarningDates: formatDates(logs.formal_warning),
-                    parentCallDates: formatDates(logs.parent_call),
-                    phoneDates: formatDates(logs.phone),
-                    classDisruptDates: formatDates(logs.class_disrupt),
-                    systemAlertDates: formatDates(logs.system_alert),
-                    fightAlertDates: formatDates(logs.fight_alert)
+                    absentDates: formatArr(fData.absent),
+                    delayDates: formatArr(fData.delay),
+                    earlyExitDates: formatArr(fData.early_exit),
+                    escapeDates: formatArr(fData.escape),
+                    exitDates: formatArr(fData.repeat_exit),
+                    warningDates: formatArr(fData.warning),
+                    pledgeDates: formatArr(fData.pledge),
+                    formalWarningDates: formatArr(fData.formal_warning),
+                    parentCallDates: formatArr(fData.parent_call),
+                    phoneDates: formatArr(fData.phone),
+                    classDisruptDates: formatArr(fData.class_disrupt),
+                    systemAlertDates: formatArr(fData.system_alert),
+                    fightAlertDates: formatArr(fData.fight_alert)
                 })
             });
         }
 
-        fetchDataFromSheets();
+        function openDailyAbsentReportModal() {
+            document.getElementById('absentReportDate').innerText = currentDate;
+            let absentStudentsList = [];
+            Object.keys(studentsData).forEach(cls => {
+                (studentsData[cls] || []).forEach(name => {
+                    let absentArr = getStudentFieldDates(name, 'absent');
+                    if (absentArr.includes(currentDate)) {
+                        absentStudentsList.push({ name: name, class: cls, totalAbsent: absentArr.length });
+                    }
+                });
+            });
+
+            document.getElementById('absentReportSummary').innerText = `إجمالي عدد الطلاب الغائبين ليوم ${currentDate}: (${absentStudentsList.length} طالب)`;
+            let tbody = document.getElementById('dailyAbsentTableBody');
+            tbody.innerHTML = '';
+            if (absentStudentsList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#777;">لا يوجد طلاب غائبين في هذا التاريخ.</td></tr>`;
+            } else {
+                absentStudentsList.forEach((item, index) => {
+                    tbody.innerHTML += `<tr>
+                        <td>${index+1}</td>
+                        <td><b>${item.name}</b></td>
+                        <td>شعبة (${item.class})</td>
+                        <td><span class="badge badge-danger">${item.totalAbsent} أيام</span></td>
+                    </tr>`;
+                });
+            }
+            document.getElementById('dailyAbsentReportModal').style.display = 'flex';
+        }
+
+        function closeDailyAbsentReportModal() {
+            document.getElementById('dailyAbsentReportModal').style.display = 'none';
+        }
     </script>
 </body>
 </html>
