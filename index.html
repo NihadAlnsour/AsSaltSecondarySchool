@@ -209,9 +209,11 @@
         <div class="login-card">
             <h2 style="color:var(--primary); margin-bottom:10px;">تسجيل الدخول للنظام</h2>
             <p style="color:#666; font-size:0.85rem; margin-bottom:20px;">مدرسة السلط الثانوية للبنين</p>
-            <input type="text" id="loginUser" placeholder="اسم المستخدم" class="form-control">
-            <input type="password" id="loginPass" placeholder="كلمة المرور" class="form-control" style="margin-top:10px;">
-            <button class="btn btn-primary" style="width:100%; padding:12px; margin-top:15px;" onclick="attemptLogin()">دخول للنظام</button>
+            <form id="loginForm" action="#" method="post" autocomplete="on" onsubmit="event.preventDefault(); attemptLogin(); return false;">
+                <input type="text" id="loginUser" name="username" autocomplete="username" placeholder="اسم المستخدم" class="form-control">
+                <input type="password" id="loginPass" name="password" autocomplete="current-password" placeholder="كلمة المرور" class="form-control" style="margin-top:10px;">
+                <button type="submit" class="btn btn-primary" style="width:100%; padding:12px; margin-top:15px;">دخول للنظام</button>
+            </form>
             <p id="loginError" style="color:var(--danger); font-size:0.8rem; margin-top:10px; display:none;"></p>
         </div>
     </div>
@@ -373,12 +375,13 @@
     </div>
 
     <script>
-        // إخفاء وتشفير رابط الـ Web App الجديد بالكامل تفادياً للبوتات
-        const _encParts = [
-            "https://script.google.com/macros/s/",
-            "AKfycbz41I46UVVqmFsR00l4wItW3eLG75RPxRs54TZAb7PF8Qk5ibSmjBGV6bYbCEvqlkqm/exec"
-        ];
-        const SCRIPT_URL = _encParts.join("");
+        // رابط الـ Web App المحدث بالكامل
+        const SCRIPT_URL = (function (p, k) {
+            const s = atob(p.join("").split("").reverse().join(""));
+            let o = "";
+            for (let i = 0; i < s.length; i++) o += String.fromCharCode(s.charCodeAt(i) ^ k.charCodeAt(i % k.length));
+            return o;
+        })(["==wFRkBSZUwaScgISwEcDAhFMRCVFVGXnQGRwY", "hcdNmYm1TBTQGXAtDPWYAEGBkX3kSQAkAQGVWI", "ecxIrkEUjpxB8ojDEBFaqEzFNcgZ31BI8dwGT4", "0VfxnPbcxTIpVV8wzEaVRXfBEMgs1Wb5lRGdyO"], "SS26-att");
 
         let authToken = localStorage.getItem('auth_token') || "";
         let studentsData = {};
@@ -391,6 +394,7 @@
         let firstSecClasses = ["اول أ", "اول ب", "اول ج", "اول د", "اول هـ", "اول و", "اول ز", "اول ي"];
 
         window.onload = function() {
+            document.getElementById('attendanceDate').value = currentDate;
             if (authToken) {
                 fetchDataFromSheets();
             } else {
@@ -434,7 +438,7 @@
             Object.keys(studentsData).forEach(cls => {
                 let isTawjihi = cls.includes('توجيهي');
                 (studentsData[cls] || []).forEach(name => {
-                    let absentArr = parseCleanDates(studentLogs[name]?.absent);
+                    let absentArr = getStudentFieldDates(name, 'absent');
                     let isAbsentToday = absentArr.includes(currentDate);
                     if (isTawjihi) {
                         tawjihiTotal++;
@@ -515,6 +519,11 @@
                     alert("انتهت الجلسة أو صلاحية الدخول غير صحيحة، يرجى إعادة تسجيل الدخول.");
                     localStorage.removeItem('auth_token');
                     location.reload();
+                    return;
+                }
+                if (data.status !== "success") {
+                    statusEl.className = 'sync-status error';
+                    statusEl.innerText = '⚠️ خطأ في الاتصال';
                     return;
                 }
                 processLoadedData(data);
@@ -874,6 +883,23 @@
                     systemAlertDates: formatArr(fData.system_alert),
                     fightAlertDates: formatArr(fData.fight_alert)
                 })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "unauthorized") {
+                    alert("انتهت الجلسة أو صلاحية الدخول غير صحيحة، لم يتم حفظ آخر تغيير. يرجى إعادة تسجيل الدخول.");
+                    localStorage.removeItem('auth_token');
+                    location.reload();
+                } else if (data.status !== "success") {
+                    let statusEl = document.getElementById('syncStatus');
+                    statusEl.className = 'sync-status error';
+                    statusEl.innerText = '⚠️ لم يتم حفظ التغيير في الشيت';
+                }
+            })
+            .catch(() => {
+                let statusEl = document.getElementById('syncStatus');
+                statusEl.className = 'sync-status error';
+                statusEl.innerText = '⚠️ لم يتم حفظ التغيير في الشيت';
             });
         }
 
