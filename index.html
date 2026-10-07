@@ -381,8 +381,37 @@
             let o = "";
             for (let i = 0; i < s.length; i++) o += String.fromCharCode(s.charCodeAt(i) ^ k.charCodeAt(i % k.length));
             return o;
-        })(["==wFRkBSZUwaScgISwEcDAhFMRCVFVGXnQGRwY", "hcdNmYm1TBTQGXAtDPWYAEGBkX3kSQAkAQGVWI", "ecxIrkEUjpxB8ojDEBFaqEzFNcgZ31BI8dwGT4", "0VfxnPbcxTIpVV8wzEaVRXfBEMgs1Wb5lRGdyO"], "SS26-att");
+        })(["==wFRkBSZIWMrZ0KSpFBCsQKsAUJLdwcaoGM+c", "iZmFnJb4DTXlkcHFRJFFRO9x0VHIBMzMzdDhFM", "6EjHuc3RgVzPDtROb5XZkEzFNcgZ31BI8dwGT4", "0VfxnPbcxTIpVV8wzEaVRXfBEMgs1Wb5lRGdyO"], "SS26-att");
 
+        // ===== إدارة الجلسة (15 دقيقة) =====
+        const SESSION_MS = 15 * 60 * 1000;
+        function touchSession() { localStorage.setItem('auth_last', String(Date.now())); }
+        function sessionAlive() {
+            const last = parseInt(localStorage.getItem('auth_last') || "0", 10);
+            return last && (Date.now() - last) < SESSION_MS;
+        }
+        function clearSession() {
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('auth_last');
+        }
+        // fetch مع إعادة محاولة تلقائية (للطلبات الآمنة فقط) ومعالجة ردود غير JSON
+        async function apiJson(url, options, retries) {
+            retries = retries || 0;
+            let lastErr;
+            for (let i = 0; i <= retries; i++) {
+                try {
+                    const res = await fetch(url, options);
+                    const txt = await res.text();
+                    return JSON.parse(txt);
+                } catch (e) {
+                    lastErr = e;
+                    if (i < retries) await new Promise(r => setTimeout(r, 1200 * (i + 1)));
+                }
+            }
+            throw lastErr;
+        }
+
+        if (!sessionAlive()) clearSession();
         let authToken = localStorage.getItem('auth_token') || "";
         let studentsData = {};
         let studentLogs = {};
@@ -392,6 +421,23 @@
         let isEditingStudent = false;
         let tawjihiClasses = ["توجيهي أ", "توجيهي ب", "توجيهي ج", "توجيهي د", "توجيهي هـ", "توجيهي و", "توجيهي ز"];
         let firstSecClasses = ["اول أ", "اول ب", "اول ج", "اول د", "اول هـ", "اول و", "اول ز", "اول ي"];
+
+        setInterval(function () {
+            if (authToken && !sessionAlive()) {
+                alert("انتهت الجلسة بسبب عدم النشاط لمدة 15 دقيقة، يرجى تسجيل الدخول من جديد.");
+                clearSession();
+                location.reload();
+            }
+        }, 30000);
+        // أثناء استخدام الصفحة: نجدد الجلسة بطلب خفيف كل 3 دقائق كحد أقصى
+        let lastPing = 0;
+        function keepAlive() {
+            if (!authToken || Date.now() - lastPing < 180000) return;
+            lastPing = Date.now();
+            apiJson(`${SCRIPT_URL}?action=ping&token=${encodeURIComponent(authToken)}`, { cache: 'no-store' }, 1)
+                .then(d => { if (d.status === "success") touchSession(); }).catch(() => {});
+        }
+        ['click', 'keydown', 'touchstart'].forEach(ev => document.addEventListener(ev, keepAlive, { passive: true }));
 
         window.onload = function() {
             document.getElementById('attendanceDate').value = currentDate;
@@ -476,12 +522,15 @@
             }
             errEl.style.display = 'none';
 
-            fetch(SCRIPT_URL, {
+            const btn = document.querySelector('#loginOverlay button');
+            if (btn) { btn.disabled = true; }
+            errEl.style.display = 'none';
+
+            apiJson(SCRIPT_URL, {
                 method: "POST",
                 headers: { "Content-Type": "text/plain;charset=utf-8" },
                 body: JSON.stringify({ action: "login", u: u, p: p })
-            })
-            .then(res => res.json())
+            }, 2)
             .then(data => {
                 if (data.status === "unauthorized") {
                     errEl.innerText = "اسم المستخدم أو كلمة المرور غير صحيحة!";
@@ -489,20 +538,25 @@
                 } else if (data.status === "success") {
                     authToken = data.token;
                     localStorage.setItem('auth_token', authToken);
+                    touchSession();
                     document.getElementById('loginOverlay').style.display = 'none';
                     processLoadedData(data);
+                } else {
+                    errEl.innerText = "خطأ من الخادم، حاول مرة أخرى.";
+                    errEl.style.display = 'flex';
                 }
             })
             .catch(err => {
                 console.error(err);
-                errEl.innerText = "خطأ في الاتصال بالخلفية السحابية!";
+                errEl.innerText = "خطأ في الاتصال بالخلفية السحابية! حاول مرة أخرى بعد لحظات.";
                 errEl.style.display = 'flex';
-            });
+            })
+            .finally(() => { if (btn) btn.disabled = false; });
         }
 
         function logoutSystem() {
             if (confirm("هل أنت متأكد من تسجيل الخروج?")) {
-                localStorage.removeItem('auth_token');
+                clearSession();
                 location.reload();
             }
         }
@@ -512,12 +566,11 @@
             statusEl.className = 'sync-status loading';
             statusEl.innerText = '⏳ جاري جلب الأسماء والسجلات...';
 
-            fetch(`${SCRIPT_URL}?action=getData&token=${encodeURIComponent(authToken)}&t=${new Date().getTime()}`, { cache: 'no-store' })
-            .then(res => res.json())
+            apiJson(`${SCRIPT_URL}?action=getData&token=${encodeURIComponent(authToken)}&t=${new Date().getTime()}`, { cache: 'no-store' }, 2)
             .then(data => {
                 if (data.status === "unauthorized") {
                     alert("انتهت الجلسة أو صلاحية الدخول غير صحيحة، يرجى إعادة تسجيل الدخول.");
-                    localStorage.removeItem('auth_token');
+                    clearSession();
                     location.reload();
                     return;
                 }
@@ -526,6 +579,7 @@
                     statusEl.innerText = '⚠️ خطأ في الاتصال';
                     return;
                 }
+                touchSession();
                 processLoadedData(data);
                 statusEl.className = 'sync-status ok';
                 statusEl.innerText = '✅ تم التحديث بنجاح';
@@ -888,12 +942,14 @@
             .then(data => {
                 if (data.status === "unauthorized") {
                     alert("انتهت الجلسة أو صلاحية الدخول غير صحيحة، لم يتم حفظ آخر تغيير. يرجى إعادة تسجيل الدخول.");
-                    localStorage.removeItem('auth_token');
+                    clearSession();
                     location.reload();
                 } else if (data.status !== "success") {
                     let statusEl = document.getElementById('syncStatus');
                     statusEl.className = 'sync-status error';
                     statusEl.innerText = '⚠️ لم يتم حفظ التغيير في الشيت';
+                } else {
+                    touchSession();
                 }
             })
             .catch(() => {
