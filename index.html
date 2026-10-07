@@ -381,7 +381,7 @@
             let o = "";
             for (let i = 0; i < s.length; i++) o += String.fromCharCode(s.charCodeAt(i) ^ k.charCodeAt(i % k.length));
             return o;
-        })(["==wFRkBSZIWMrZ0KSpFBCsQKsAUJLdwcaoGM+c", "iZmFnJb4DTXlkcHFRJFFRO9x0VHIBMzMzdDhFM", "6EjHuc3RgVzPDtROb5XZkEzFNcgZ31BI8dwGT4", "0VfxnPbcxTIpVV8wzEaVRXfBEMgs1Wb5lRGdyO"], "SS26-att");
+        })(["==wFRkBSZgGFeACPXVmfVFyGsISK9V2WHkDTWY", "DRwxna10iAzwnbbVRP/cEKbUAa+J2Q+IAFPYlK", "rdkD4EGXDZiJ7QQMF90drEzFNcgZ31BI8dwGT4", "0VfxnPbcxTIpVV8wzEaVRXfBEMgs1Wb5lRGdyO"], "SS26-att");
 
         // ===== إدارة الجلسة (15 دقيقة) =====
         const SESSION_MS = 15 * 60 * 1000;
@@ -463,7 +463,11 @@
             let parts = String(str).split(' | ');
             let datesArr = [];
             parts.forEach(p => {
-                let d = p.trim().split('T')[0];
+                let d = p.trim();
+                let m = d.match(/^[A-Za-z]{3}\s+([A-Za-z]{3})\s+(\d{1,2})\s+(\d{4})/);
+                const mon = { Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06', Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12' };
+                if (m && mon[m[1]]) d = m[3] + '-' + mon[m[1]] + '-' + ('0' + m[2]).slice(-2);
+                else d = d.split('T')[0];
                 if (d && d !== "لا" && d !== "لا يوجد") {
                     if (!datesArr.includes(d)) datesArr.push(d);
                 }
